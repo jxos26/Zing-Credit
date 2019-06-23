@@ -86,12 +86,13 @@ $(document).ready(function() {
 
 <script type="text/javascript">
   $(document).ready(function() {
-      if (window.location.href.indexOf("summary") > -1) {
-         // alert("your url contains the name franky");
-      }
-
-      //$('.nav-item a').removeClass("text-green");
-
+    if (window.location.href.indexOf("summary") > -1) {
+        $('#sidenav-collapse-main .navbar-nav li:nth-child(1) a').removeClass("text-primary");
+        $('#sidenav-collapse-main .navbar-nav li:nth-child(1) a').addClass("text-green");
+    }else if (window.location.href.indexOf("zing-credit") > -1){
+        $('#sidenav-collapse-main .navbar-nav li:nth-child(4) a').removeClass("text-primary");
+        $('#sidenav-collapse-main .navbar-nav li:nth-child(4) a').addClass("text-green");
+    }
   });
 </script>
 

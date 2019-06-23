@@ -91,70 +91,70 @@
         <ul class="navbar-nav">
           <li class="nav-item">
             @if(Auth::user()->type == "ADMIN")
-                <a class="nav-link text-green" href="/admin/summary" class="dropdown-item">
+                <a class="nav-link text-primary" href="/admin/summary" class="dropdown-item">
             @else
-                <a class="nav-link text-green" href="/summary" class="dropdown-item">
+                <a class="nav-link text-primary" href="/summary" class="dropdown-item">
             @endif
               <i class="ni ni-calendar-grid-58 "></i> Summary
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">
-              <i class="ni ni-planet text-primary"></i> Call Tracking
+            <a class="nav-link  text-primary" href="">
+              <i class="ni ni-planet"></i> Call Tracking
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">
-              <i class="ni ni-sound-wave text-primary"></i> Website Analytics
+            <a class="nav-link  text-primary" href="">
+              <i class="ni ni-sound-wave"></i> Website Analytics
             </a>
           </li>
           <li class="nav-item">
             @if(Auth::user()->type == "ADMIN")
-                <a class="nav-link" href="/admin/zing-credit" class="dropdown-item">
+                <a class="nav-link  text-primary" href="/admin/zing-credit" class="dropdown-item">
             @else
-                <a class="nav-link" href="/zing-credit" class="dropdown-item">
+                <a class="nav-link  text-primary" href="/zing-credit" class="dropdown-item">
             @endif
-              <i class="ni ni-credit-card text-primary"></i> Zing Credit
+              <i class="ni ni-credit-card"></i> Zing Credit
             </a>            
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">
-              <i class="ni ni-bullet-list-67 text-primary"></i> Paid Search
+            <a class="nav-link  text-primary" href="">
+              <i class="ni ni-bullet-list-67"></i> Paid Search
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">
-              <i class="ni ni-square-pin text-primary"></i> SEO
+            <a class="nav-link  text-primary" href="">
+              <i class="ni ni-square-pin"></i> SEO
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">
-              <i class="ni ni-email-83 text-primary"></i> Direct Mail
+            <a class="nav-link  text-primary" href="">
+              <i class="ni ni-email-83"></i> Direct Mail
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">
-              <i class="ni ni-collection text-primary"></i> RVM
+            <a class="nav-link  text-primary" href="">
+              <i class="ni ni-collection"></i> RVM
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">
-              <i class="ni ni-curved-next text-primary"></i> Reputation Management
+            <a class="nav-link  text-primary" href="">
+              <i class="ni ni-curved-next"></i> Reputation Management
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">
-              <i class="ni ni-notification-70 text-primary"></i> Social Media
+            <a class="nav-link  text-primary" href="">
+              <i class="ni ni-notification-70"></i> Social Media
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">
-              <i class="ni ni-align-center text-primary"></i> Marketing Budget
+            <a class="nav-link  text-primary" href="">
+              <i class="ni ni-align-center"></i> Marketing Budget
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="">
-              <i class="ni ni-briefcase-24 text-primary"></i> Billing
+            <a class="nav-link  text-primary" href="">
+              <i class="ni ni-briefcase-24"></i> Billing
             </a>
           </li>
         </ul>

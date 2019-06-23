@@ -52,9 +52,9 @@
                 <div class="card-body">
                         <div class="row row-1">
                             <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 text-center">
-                                <img src="/images/arrow-up.png" alt="">
+                                <img src="/images/arrow-up.png" class="img-fluid" alt="">
                             </div>
-                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
                                 <h5>Total Lead Count</h5>
                                 <h4>5,000</h4>
                             </div>
@@ -62,9 +62,9 @@
                         <hr>
                         <div class="row row-2">
                             <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12  text-center">
-                                <img src="/images/dollar-sign.png" alt="">
+                                <img src="/images/dollar-sign.png"  class="img-fluid" alt="">
                             </div>
-                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
                                 <h5>Total Pre-qualification Amount</h5>
                                 <h4>$5,000</h4>
                             </div>
