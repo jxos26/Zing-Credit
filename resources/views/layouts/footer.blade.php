@@ -4,7 +4,7 @@
     <div class="row align-items-center justify-content-xl-between">
         <div class="col-xl-6">
             <div class="copyright text-center text-xl-left text-muted">
-                &copy; 2018 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1"
+                &copy; <?php echo date('Y');?> <a href="https://www.creative-tim.com" class="font-weight-bold ml-1"
                     target="_blank">Creative Tim</a>
             </div>
         </div>
@@ -36,7 +36,7 @@
         <div class="row align-items-center justify-content-xl-between">
             <div class="col-xl-6">
                 <div class="copyright text-center text-xl-left text-muted">
-                    &copy; 2019 <a href="" class="font-weight-bold ml-1" target="_blank">OptiAuto</a>
+                    &copy; <?php echo date('Y');?> <a href="" class="font-weight-bold ml-1" target="_blank">OptiAuto</a>
                 </div>
             </div>
             <!-- <div class="col-xl-6">
@@ -64,12 +64,16 @@
 <!-- Core -->
 <script src="../assets/vendor/jquery/dist/jquery.min.js"></script>
 <script src="../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/vendor/js-cookie/js.cookie.js"></script>
+
 
 
 @yield('pagespecificscripts')
 
 <!-- Argon JS -->
 <script src="../assets/js/argon.js?v=1.0.0"></script>
+
+<script src="../assets/js/demo.min.js"></script>
 
 <script>
 $(document).ready(function() {
@@ -86,7 +90,7 @@ $(document).ready(function() {
          // alert("your url contains the name franky");
       }
 
-      $('.nav-item a').removeClass("text-green");
+      //$('.nav-item a').removeClass("text-green");
 
   });
 </script>

@@ -35,7 +35,8 @@ class HomeController extends Controller
     public function index()
     {
         $status = "";
-        return view('users.summary');
+        $title = "SUMMARY";
+        return view('users.summary',compact('title'));
     }
 
     public function profile()
@@ -71,6 +72,11 @@ class HomeController extends Controller
                 'img'               => $paths
             ]);
         }elseif($paths != "" && $request->password != ""){
+            // Validate the form data
+            $this->validate($request, [
+                'password' => 'required|min:6'
+            ]);
+
             $query =DB::connection('mysql')->table('users')->where('id', $this->userLogged()['id'])
             ->update([                
                 'firstname'         => ucwords($request->firstname),
@@ -80,6 +86,12 @@ class HomeController extends Controller
                 'img'               => $paths
             ]);
         }elseif($paths == "" && $request->password != ""){
+
+            // Validate the form data
+            $this->validate($request, [
+                'password' => 'required|min:6'
+            ]);
+
             $query =DB::connection('mysql')->table('users')->where('id', $this->userLogged()['id'])
             ->update([                
                 'firstname'         => ucwords($request->firstname),
@@ -99,7 +111,8 @@ class HomeController extends Controller
 
     public function zingCredit()
     {
-        return view('users.profile');
+        $title = "ZING CREDIT";
+        return view('users.zing-credit', compact('title'));
     }
 
 }

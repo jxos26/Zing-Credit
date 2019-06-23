@@ -6,7 +6,11 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <!-- Brand -->
-      <a class="navbar-brand pt-0" href="/summary">
+      @if(Auth::user()->type == "ADMIN")
+          <a class="navbar-brand pt-0" href="/admin/summary" class="dropdown-item">
+      @else
+          <a class="navbar-brand pt-0" href="/summary" class="dropdown-item">
+      @endif
         <img src="/images/logo.png" class="navbar-brand-img" alt="...">
       </a>
       <!-- User -->
@@ -34,12 +38,20 @@
             <div class=" dropdown-header noti-title">
               <h6 class="text-overflow m-0">Welcome {{Auth::user()->firstname .' '.Auth::user()->lastname}}!</h6>
             </div>
-            <a href="/profile" class="dropdown-item">
+            @if(Auth::user()->type == "ADMIN")
+                <a href="/admin/profile" class="dropdown-item">
+            @else
+                <a href="/profile" class="dropdown-item">
+            @endif
               <i class="ni ni-single-02"></i>
               <span>My profile</span>
             </a>            
             <div class="dropdown-divider"></div>
-            <a href="/logout" class="dropdown-item">
+            @if(Auth::user()->type == "ADMIN")
+                <a href="/admin/logout" class="dropdown-item">
+            @else
+                <a href="/logout" class="dropdown-item">
+            @endif
               <i class="ni ni-user-run"></i>
               <span>Logout</span>
             </a>
@@ -78,7 +90,11 @@
         <!-- Navigation -->
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link text-green" href="/summary">
+            @if(Auth::user()->type == "ADMIN")
+                <a class="nav-link text-green" href="/admin/summary" class="dropdown-item">
+            @else
+                <a class="nav-link text-green" href="/summary" class="dropdown-item">
+            @endif
               <i class="ni ni-calendar-grid-58 "></i> Summary
             </a>
           </li>
@@ -93,7 +109,11 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/zing-credit">
+            @if(Auth::user()->type == "ADMIN")
+                <a class="nav-link" href="/admin/zing-credit" class="dropdown-item">
+            @else
+                <a class="nav-link" href="/zing-credit" class="dropdown-item">
+            @endif
               <i class="ni ni-credit-card text-primary"></i> Zing Credit
             </a>            
           </li>

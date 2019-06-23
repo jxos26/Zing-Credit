@@ -3,7 +3,7 @@
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('users.login');
 });
 
 // Route::get('/login', function () {
@@ -32,3 +32,14 @@ Route::get('/summary', 'HomeController@index')->name('summary');
 Route::get('/profile', 'HomeController@profile')->name('profile');
 Route::post('/profile/updated', 'HomeController@updateProfile')->name('update.profile');
 Route::get('/zing-credit', 'HomeController@zingCredit')->name('zing.credit');
+
+Route::get('/admin', function () {
+    return redirect('/admin/login');
+});
+Route::get('/admin/login', 'Auth\AdminLoginController@adminLoginForm')->name('admin.LoginForm');
+Route::post('/admin/login', 'Auth\AdminLoginController@adminLogin')->name('admin.Login.submit');
+Route::get('/admin/logout', 'Auth\AdminLoginController@logout')->name('admin.logout');
+Route::get('/admin/summary', 'AdminController@index')->name('admin.summary');
+Route::get('/admin/profile', 'AdminController@profile')->name('profile');
+Route::post('/admin/profile/updated', 'AdminController@updateProfile')->name('admin.update.profile');
+Route::get('/admin/zing-credit', 'AdminController@zingCredit')->name('zing.credit');

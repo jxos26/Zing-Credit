@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('pageTitle', 'WELCOME TO ZING CREDITS')
+@section('pageTitle', 'ADMIN ACCESS')
 
 @section('content')
 
@@ -9,8 +9,8 @@
     <!-- Navbar -->
     <nav class="navbar navbar-top navbar-horizontal navbar-expand-md navbar-dark">
         <div class="container px-4">
-            <a class="navbar-brand" href="../index.html">
-                <img src="images/logo.png" />
+            <a class="navbar-brand" href="">
+                
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse-main"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,7 +21,7 @@
                 <div class="navbar-collapse-header d-md-none">
                     <div class="row">
                         <div class="col-6 collapse-brand">
-                            <a href="../index.html">
+                            <a href="">
                                 <img src="../assets/img/brand/blue.png">
                             </a>
                         </div>
@@ -35,22 +35,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- Navbar items -->
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-icon" href="/register">
-                            <i class="ni ni-circle-08 text-primary"></i>
-                            <span class="nav-link-inner--text text-primary">Register</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-icon" href="/login">
-                            <i class="ni ni-key-25 text-primary"></i>
-                            <span class="nav-link-inner--text text-primary">Login</span>
-                        </a>
-                    </li>
-
-                </ul>
+               
             </div>
         </div>
     </nav>
@@ -60,7 +45,7 @@
             <div class="header-body text-center mb-7">
                 <div class="row justify-content-center">
                     <div class="col-lg-5 col-md-6">
-                        <h1 class="text-primary">Welcome to ZING CREDIT!</h1>
+                        <h1 class="text-primary"><a href="/">ADMIN <img src="/images/logo.png" /></a></h1>
                         <p class="text-lead text-primary"></p>
                     </div>
                 </div>
@@ -81,14 +66,14 @@
                 <div class="card bg-secondary shadow-sm border-0">
                     <div class="card-body px-lg-5 py-lg-5">
                         <div class="text-center text-muted mb-4">
-                            <small><i class="ni ni-curved-next"></i> Login to ZIND CREDIT</small>
+                            <small><i class="ni ni-curved-next"></i> Admin Login</small>
                         </div>
                             @if (session('error'))
                             <div>
                                 <h3 style="color:red; text-align:center; ">{{ session('error') }}</h3>
                             </div>
                             @endif
-                        <form role="form" method="POST" action="{{ route('users.login.submit') }}">
+                        <form role="form" method="POST" action="{{ route('admin.Login.submit') }}">
                             @csrf
                             <div class="form-group mb-3">
                                 <div class="input-group input-group-alternative">
@@ -126,14 +111,6 @@
                                     in</button>
                             </div>
                         </form>
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-6">
-                        <a href="#" class="text-light"><small>Forgot password?</small></a>
-                    </div>
-                    <div class="col-6 text-right">
-                        <a href="/register" class="text-light"><small>Create new account</small></a>
                     </div>
                 </div>
             </div>

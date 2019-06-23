@@ -14,13 +14,13 @@ class AdminLoginController extends Controller
         $this->middleware('guest:admin', ['except' => ['logout']]);
     }
 
-    public function showLoginForm()
+    public function adminLoginForm()
     {
-        return view('auth.admin-login');
+        return view('admins.login');
     }
 
-    public function login(Request $request)
-    {
+    public function adminLogin(Request $request)
+    {        
         // Validate the form data
         $this->validate($request, [
             'username'   => 'required|max:20',
@@ -30,8 +30,7 @@ class AdminLoginController extends Controller
         // Attempt to log the user in
         if (Auth::guard('admin')->attempt(['username' => $request->username, 'password' => $request->password], $request->remember)) {
             // if successful, then redirect to their intended location
-            $this->log_details($request->username);
-            return redirect()->intended(route('admin.dashboard'));
+            return redirect('/admin/summary');        
         }
 
         // if unsuccessful, then redirect back to the login with the form data
@@ -41,16 +40,6 @@ class AdminLoginController extends Controller
     public function logout()
     {
         Auth::guard('admin')->logout();
-        return redirect('/admin');
-    }
-
-    function log_details($username)
-    {
-        $query =DB::connection('mysql')->table('log_sessions')->insert([  
-            'username'      => $username,
-            'log_type'      => 'LOGIN',
-            'user_type'     => 'ADMIN',
-            'log_date'      => date('Y-m-d H:i:s')
-        ]);
+        return redirect('/admin/login');
     }
 }

@@ -2,7 +2,7 @@
  <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
       <div class="container-fluid">
         <!-- Brand -->
-        <a class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="./index.html">Dashboard</a>
+        <a class="h1 mb-0 text-white text-uppercase d-none d-lg-inline-block" href="/">{{$title}}</a>
         <!-- Form -->
         <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
           <div class="form-group mb-0">
@@ -31,12 +31,21 @@
               <div class=" dropdown-header noti-title">
                 <h6 class="text-overflow m-0">Welcome {{Auth::user()->firstname .' '.Auth::user()->lastname}}!</h6>
               </div>
-              <a href="/profile" class="dropdown-item">
+              @if(Auth::user()->type == "ADMIN")
+                <a href="/admin/profile" class="dropdown-item">
+              @else
+                <a href="/profile" class="dropdown-item">
+              @endif
                 <i class="ni ni-single-02"></i>
                 <span>My profile</span>
               </a>
               <div class="dropdown-divider"></div>
-              <a href="/logout" class="dropdown-item">
+              @if(Auth::user()->type == "ADMIN")
+                <a href="/admin/logout" class="dropdown-item">
+              @else
+                <a href="/logout" class="dropdown-item">
+              @endif
+              
                 <i class="ni ni-user-run"></i>
                 <span>Logout</span>
               </a>
