@@ -30,8 +30,8 @@
             <div class="col-2">
                 <form _lpchecked="1" class="">
                     <div class="form-group">
-                        <select name=""  class="form-control" id="">
-                                <option value=""> Select Account</option>
+                        <select name="" class="form-control" id="">
+                            <option value=""> Select Account</option>
                         </select>
                     </div>
                 </form>
@@ -39,16 +39,16 @@
         </div>
         <div class="row">
             <div class="col-3 offset-9">
-            <form _lpchecked="1" class="">
-            <div class="form-group">
-                        <input class="form-control datepicker" placeholder="Select date" type="text" >
+                <form _lpchecked="1" class="">
+                    <div class="form-group">
+                        <input class="form-control datepicker" placeholder="Select date" type="text">
                     </div>
                 </form>
             </div>
         </div>
         <div class="row">
             <div class="col-xl-4">
-                <div class="card shadow">                    
+                <div class="card shadow">
                     <div class="card-body">
                         <div class="row row-1">
                             <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 text-center">
@@ -111,36 +111,34 @@
                 <div class="card">
                     <!-- Card header -->
                     <div class="card-header">
-                        <h3 class="mb-0">All Leads Details</h3>                        
+                        <h3 class="mb-0">All Leads Details</h3>
                     </div>
                     <div class="table-responsive py-4">
                         <table class="table table-flush" id="datatable-basic">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>Customer First Name</th>
-                                    <th>Customer Last Name</th>
-                                    <th>Customer Phone</th>
-                                    <th>Customer Email</th>
-                                    <th>Customer Street</th>
-                                    <th>Customer City</th>
-                                    <th>Customer Zip</th>
-                                    <th>Pre-equal Amount</th>
-                                    <th>Client Name</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>City</th>
+                                    <th>State</th>
+                                    <th>Vehicle Category</th>
+                                    <th>Vehicle Make</th>
                                     <th>Date</th>
+                                    <th>Pre-equal Amount</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>Customer First Name</th>
-                                    <th>Customer Last Name</th>
-                                    <th>Customer Phone</th>
-                                    <th>Customer Email</th>
-                                    <th>Customer Street</th>
-                                    <th>Customer City</th>
-                                    <th>Customer Zip</th>
-                                    <th>Pre-equal Amount</th>
-                                    <th>Client Name</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>City</th>
+                                    <th>State</th>
+                                    <th>Vehicle Category</th>
+                                    <th>Vehicle Make</th>
                                     <th>Date</th>
+                                    <th>Pre-equal Amount</th>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -152,9 +150,8 @@
                                     <td>2011/04/25</td>
                                     <td>$320,800</td>
                                     <td>Tiger Nixon</td>
+                                    <td>2011/04/25</td>                                    
                                     <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>2011/04/25</td>
                                 </tr>
                                 <tr>
                                     <td>Tiger Nixon</td>
@@ -164,9 +161,8 @@
                                     <td>2011/04/25</td>
                                     <td>$320,800</td>
                                     <td>Tiger Nixon</td>
+                                    <td>2011/04/25</td>                                    
                                     <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>2011/04/25</td>
                                 </tr>
                                 <tr>
                                     <td>Tiger Nixon</td>
@@ -176,9 +172,8 @@
                                     <td>2011/04/25</td>
                                     <td>$320,800</td>
                                     <td>Tiger Nixon</td>
+                                    <td>2011/04/25</td>                                    
                                     <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>2011/04/25</td>
                                 </tr>
                             </tbody>
                         </table>

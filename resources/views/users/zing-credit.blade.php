@@ -117,30 +117,28 @@
                         <table class="table table-flush" id="datatable-basic">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>Customer First Name</th>
-                                    <th>Customer Last Name</th>
-                                    <th>Customer Phone</th>
-                                    <th>Customer Email</th>
-                                    <th>Customer Street</th>
-                                    <th>Customer City</th>
-                                    <th>Customer Zip</th>
-                                    <th>Pre-equal Amount</th>
-                                    <th>Client Name</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>City</th>
+                                    <th>State</th>
+                                    <th>Vehicle Category</th>
+                                    <th>Vehicle Make</th>
                                     <th>Date</th>
+                                    <th>Pre-equal Amount</th>
                                 </tr>
                             </thead>
                             <tfoot>
                                 <tr>
-                                    <th>Customer First Name</th>
-                                    <th>Customer Last Name</th>
-                                    <th>Customer Phone</th>
-                                    <th>Customer Email</th>
-                                    <th>Customer Street</th>
-                                    <th>Customer City</th>
-                                    <th>Customer Zip</th>
-                                    <th>Pre-equal Amount</th>
-                                    <th>Client Name</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>City</th>
+                                    <th>State</th>
+                                    <th>Vehicle Category</th>
+                                    <th>Vehicle Make</th>
                                     <th>Date</th>
+                                    <th>Pre-equal Amount</th>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -152,9 +150,8 @@
                                     <td>2011/04/25</td>
                                     <td>$320,800</td>
                                     <td>Tiger Nixon</td>
+                                    <td>2011/04/25</td>                                    
                                     <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>2011/04/25</td>
                                 </tr>
                                 <tr>
                                     <td>Tiger Nixon</td>
@@ -164,9 +161,8 @@
                                     <td>2011/04/25</td>
                                     <td>$320,800</td>
                                     <td>Tiger Nixon</td>
+                                    <td>2011/04/25</td>                                    
                                     <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>2011/04/25</td>
                                 </tr>
                                 <tr>
                                     <td>Tiger Nixon</td>
@@ -176,9 +172,8 @@
                                     <td>2011/04/25</td>
                                     <td>$320,800</td>
                                     <td>Tiger Nixon</td>
+                                    <td>2011/04/25</td>                                    
                                     <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>2011/04/25</td>
                                 </tr>
                             </tbody>
                         </table>
