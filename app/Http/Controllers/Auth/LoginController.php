@@ -60,7 +60,7 @@ class LoginController extends Controller
             // Attempt to log the user in
             if (Auth::guard()->attempt(['username' => $request->username, 'password' => $request->password], $request->remember)) {
                 // if successful, then redirect to their intended location
-                return redirect('/admin/summary');
+                return redirect('/summary');
             }else{
                 return redirect()->back()->withInput($request->only('username', 'remember'))->with('error','Username and Password did not Match!');
             }
