@@ -96,6 +96,18 @@ $(document).ready(function() {
   });
 </script>
 
+<script>
+    $(document).ready(function() {
+        $('#datatable-basic').DataTable( {
+            destroy: true,
+            dom: 'Bfrtip',
+            buttons: [
+                'csv'
+            ]
+        } );
+    });
+</script>
+
 </body>
 
 </html>
