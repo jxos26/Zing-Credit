@@ -42,7 +42,7 @@
                 <div class="card">
                     <!-- Card header -->
                     <div class="card-header">
-                        <h3 class="mb-0">Client's List</h3>
+                        <h3 class="mb-0">Clients List</h3>
                         <br />
                         @if (session('status'))
                         <div id="alert-action" class="alert alert-success" role="alert">

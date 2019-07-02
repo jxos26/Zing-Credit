@@ -56,7 +56,7 @@
                             </div>
                             <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
                                 <h5>Total Lead Count</h5>
-                                <h4>5,000</h4>
+                                <h4>{{$leads_count}}</h4>
                             </div>
                         </div>
                         <hr>
@@ -66,7 +66,7 @@
                             </div>
                             <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
                                 <h5>Total Pre-qualification Amount</h5>
-                                <h4>$5,000</h4>
+                                <h4>${{$amount}}</h4>
                             </div>
                         </div>
                     </div>                

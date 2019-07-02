@@ -47,6 +47,7 @@ class AdminController extends Controller
     public function updateProfile(Request $request)
     {
         
+        dd($this->userLogged()['id']);
         $paths = "";
         if($request->hasFile('img')){
             $file = $request->file('img');
@@ -111,14 +112,19 @@ class AdminController extends Controller
     public function zingCredit()
     {
         $leads = DB::connection('mysql')->table('leads')->get();
+        $leads_count = DB::connection('mysql')->table('leads')->count();
+        $amount = 0;
+        foreach($leads as $l){
+            $amount = $amount + $l->amount;
+        }
         $title = "ZING CREDIT";
-        return view('admins.zing-credit', compact('title','leads'));
+        return view('admins.zing-credit', compact('title','leads','leads_count','amount'));
     }
 
     public function getClients()
     {
         $users = DB::connection('mysql')->table('users')->get();
-        $title = "CLIENT'S LIST" ;
+        $title = "CLIENTS LIST" ;
         return view('admins.clients', compact('title','users'));
     }
 
