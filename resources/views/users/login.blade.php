@@ -37,7 +37,7 @@
                 </div>
                 <!-- Navbar items -->
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link nav-link-icon" href="/register">
                             <i class="ni ni-circle-08 text-primary"></i>
                             <span class="nav-link-inner--text text-primary">Register</span>
@@ -48,7 +48,7 @@
                             <i class="ni ni-key-25 text-primary"></i>
                             <span class="nav-link-inner--text text-primary">Login</span>
                         </a>
-                    </li>
+                    </li> -->
 
                 </ul>
             </div>
@@ -132,9 +132,9 @@
                     <div class="col-6">
                         <a href="#" class="text-light"><small>Forgot password?</small></a>
                     </div>
-                    <div class="col-6 text-right">
+                    <!-- <div class="col-6 text-right">
                         <a href="/register" class="text-light"><small>Create new account</small></a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

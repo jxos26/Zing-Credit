@@ -43,3 +43,6 @@ Route::get('/admin/summary', 'AdminController@index')->name('admin.summary');
 Route::get('/admin/profile', 'AdminController@profile')->name('profile');
 Route::post('/admin/profile/updated', 'AdminController@updateProfile')->name('admin.update.profile');
 Route::get('/admin/zing-credit', 'AdminController@zingCredit')->name('zing.credit');
+Route::get('/admin/clients', 'AdminController@getClients')->name('get.clients');
+Route::post('/admin/client/register', 'AdminController@clientRegister')->name('client.register');
+Route::get('/admin/client/disable/{id}', 'AdminController@disabledClient');

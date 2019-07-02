@@ -28,3 +28,9 @@
     font-size:45px;
     color:#525262;
 }
+.dt-buttons.btn-group{
+    margin-left:20px;
+}
+#datatable-basic_filter{
+    margin-right:20px;
+}

@@ -110,8 +110,63 @@ class AdminController extends Controller
 
     public function zingCredit()
     {
+        $leads = DB::connection('mysql')->table('leads')->get();
         $title = "ZING CREDIT";
-        return view('admins.zing-credit', compact('title'));
+        return view('admins.zing-credit', compact('title','leads'));
+    }
+
+    public function getClients()
+    {
+        $users = DB::connection('mysql')->table('users')->get();
+        $title = "CLIENT'S LIST" ;
+        return view('admins.clients', compact('title','users'));
+    }
+
+
+    public function clientRegister(Request $request)
+    {
+        $query =DB::connection('mysql')->table('users')->insert([  
+            'firstname'     => $request->firstname,
+            'middlename'    => $request->middlename,
+            'lastname'      => $request->lastname,
+            'username'      => $request->username,
+            'email'         => $request->email,
+            'password'      => Hash::make($request->password),
+            'img'           => 'images/users.png', 
+            'status'        => "ACTIVE",
+            'type'          => "USER",
+            'created_at'  => date('Y-m-d H:i:s')
+        ]);
+        $name = $request->firstname .' '. $request->lastname;
+        
+        if($query)
+        {                       
+            return redirect('/admin/clients')->with('status','Client '.$name.' has been created!');
+        }else{
+            return redirect('/admin/clients')->with('error','Error Creating Client Request!');
+        } 
+
+    }
+
+    public function disabledClient($id)
+    {
+
+        $user = DB::connection('mysql')->table('users')->where('id',$id)->first();
+
+        $name = $user->firstname .' '. $user->lastname;
+
+        $query =DB::connection('mysql')->table('users')->where('id', $id)
+        ->update([                
+            'status'         => "DISABLED"
+        ]);
+
+        if($query)
+        {                       
+            return redirect('/admin/clients')->with('status','Client '.$name.' has been disabled!');
+        }else{
+            return redirect('/admin/clients')->with('error','Error Disabled Request!');
+        } 
+
     }
 
 }

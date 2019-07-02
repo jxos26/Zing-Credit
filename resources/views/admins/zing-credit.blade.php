@@ -49,12 +49,12 @@
         <div class="row">
             <div class="col-xl-4">
                 <div class="card shadow">
-                    <div class="card-body">
+                <div class="card-body">
                         <div class="row row-1">
                             <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12 text-center">
-                                <img src="/images/arrow-up.png" alt="">
+                                <img src="/images/arrow-up.png" class="img-fluid" alt="">
                             </div>
-                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
                                 <h5>Total Lead Count</h5>
                                 <h4>5,000</h4>
                             </div>
@@ -62,14 +62,14 @@
                         <hr>
                         <div class="row row-2">
                             <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-xs-12  text-center">
-                                <img src="/images/dollar-sign.png" alt="">
+                                <img src="/images/dollar-sign.png"  class="img-fluid" alt="">
                             </div>
-                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 col-xs-12">
                                 <h5>Total Pre-qualification Amount</h5>
                                 <h4>$5,000</h4>
                             </div>
                         </div>
-                    </div>
+                    </div>                
                 </div>
             </div>
             <div class="col-xl-8 mb-5 mb-xl-0">
@@ -142,39 +142,23 @@
                                 </tr>
                             </tfoot>
                             <tbody>
-                                <tr>
-                                    <td>Tiger Nixon</td>
-                                    <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>61</td>
-                                    <td>2011/04/25</td>
-                                    <td>$320,800</td>
-                                    <td>Tiger Nixon</td>
-                                    <td>2011/04/25</td>                                    
-                                    <td>System Architect</td>
-                                </tr>
-                                <tr>
-                                    <td>Tiger Nixon</td>
-                                    <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>61</td>
-                                    <td>2011/04/25</td>
-                                    <td>$320,800</td>
-                                    <td>Tiger Nixon</td>
-                                    <td>2011/04/25</td>                                    
-                                    <td>System Architect</td>
-                                </tr>
-                                <tr>
-                                    <td>Tiger Nixon</td>
-                                    <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>61</td>
-                                    <td>2011/04/25</td>
-                                    <td>$320,800</td>
-                                    <td>Tiger Nixon</td>
-                                    <td>2011/04/25</td>                                    
-                                    <td>System Architect</td>
-                                </tr>
+
+                                @if($leads)
+                                    @foreach($leads as $l)
+                                    <tr>
+                                        <td>{{$l->name}}</td>
+                                        <td>{{$l->email}}</td>
+                                        <td>{{$l->mphone}}</td>
+                                        <td>{{$l->city}}</td>
+                                        <td>{{$l->state}}</td>
+                                        <td>{{$l->category}}</td>
+                                        <td>{{$l->make}}</td>
+                                        <td>{{date('F d, Y', strtotime($l->dob))}}</td>                                    
+                                        <td>{{$l->amount}}</td>
+                                    </tr>  
+                                    @endforeach
+                                @endif
+                                
                             </tbody>
                         </table>
                     </div>

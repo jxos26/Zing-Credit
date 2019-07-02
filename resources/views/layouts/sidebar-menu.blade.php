@@ -117,6 +117,14 @@
               <i class="ni ni-credit-card"></i> Zing Credit
             </a>            
           </li>
+          @if(Auth::user()->type == "ADMIN")
+          <li class="nav-item">           
+                <a class="nav-link  text-primary" href="/admin/clients" class="dropdown-item">          
+           
+              <i class="ni ni-single-02"></i> Clients
+            </a>            
+          </li>
+          @endif
           <li class="nav-item">
             <a class="nav-link  text-primary" href="">
               <i class="ni ni-bullet-list-67"></i> Paid Search
