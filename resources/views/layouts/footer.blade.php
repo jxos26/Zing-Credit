@@ -5,7 +5,7 @@
         <div class="col-xl-6">
             <div class="copyright text-center text-xl-left text-muted">
                 &copy; <?php echo date('Y');?> <a href="https://www.creative-tim.com" class="font-weight-bold ml-1"
-                    target="_blank">Creative Tim</a>
+                    target="_blank">OptiAuto</a>
             </div>
         </div>
         <!-- <div class="col-xl-6">
@@ -62,18 +62,18 @@
 @endif
 
 <!-- Core -->
-<script src="../assets/vendor/jquery/dist/jquery.min.js"></script>
-<script src="../assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="../assets/vendor/js-cookie/js.cookie.js"></script>
+<script src="/assets/vendor/jquery/dist/jquery.min.js"></script>
+<script src="/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/vendor/js-cookie/js.cookie.js"></script>
 
 
 
 @yield('pagespecificscripts')
 
 <!-- Argon JS -->
-<script src="../assets/js/argon.js?v=1.0.0"></script>
+<script src="/assets/js/argon.js?v=1.0.0"></script>
 
-<script src="../assets/js/demo.min.js"></script>
+<script src="/assets/js/demo.min.js"></script>
 
 <script>
 $(document).ready(function() {
@@ -85,50 +85,61 @@ $(document).ready(function() {
 </script>
 
 <script type="text/javascript">
-  $(document).ready(function() {
+$(document).ready(function() {
     if (window.location.href.indexOf("summary") > -1) {
         $('#sidenav-collapse-main .navbar-nav li:nth-child(1) a').removeClass("text-primary");
         $('#sidenav-collapse-main .navbar-nav li:nth-child(1) a').addClass("text-green");
-    }else if (window.location.href.indexOf("zing-credit") > -1){
+    } else if (window.location.href.indexOf("zing-credit") > -1) {
         $('#sidenav-collapse-main .navbar-nav li:nth-child(4) a').removeClass("text-primary");
         $('#sidenav-collapse-main .navbar-nav li:nth-child(4) a').addClass("text-green");
-    }else if (window.location.href.indexOf("clients") > -1){
+    } else if (window.location.href.indexOf("clients") > -1) {
         $('#sidenav-collapse-main .navbar-nav li:nth-child(5) a').removeClass("text-primary");
         $('#sidenav-collapse-main .navbar-nav li:nth-child(5) a').addClass("text-green");
     }
-  });
+});
 </script>
 
 <script>
-    $(document).ready(function() {
-        $('#datatable-basic').DataTable( {
-            destroy: true,
-            dom: 'Bfrtip',
-            paginate: [{
+$(document).ready(function() {
+    $('#datatable-basic').DataTable({
+        destroy: true,
+        dom: 'Blfrtip',
+        language: {
+            paginate: {
                 next: '&#8594;', // or '→'
-                previous: '&#8592;', // or '←' 
-              }],
-            buttons: [
-                {
-                  extend: 'csv',
-                  text: 'Export CSV',
-                  className: 'btn-space',
-                  exportOptions: {
-                      orthogonal: null
-                  }
-              },              
-            ],
-            
-        } );
-    });
+                previous: '&#8592;' // or '←' 
+            }
+        },
 
-    $(document).ready(function () {
-        var $div2 = $('#alert-action');    
-        setTimeout( function(){
-            $div2.hide();
-        }, 3000);
+        buttons: [{
+                extend: 'colvis',
+                text: 'Select Column'
+            },
+            {
+                extend: 'csv',
+                text: 'Export CSV',
+                exportOptions: {
+                    columns: ':visible',
+                    text: 'Export CSV',
+                    className: 'btn-space'
+                }
+            }
+
+        ]
+
     });
+});
+
+$(document).ready(function() {
+    var $div2 = $('#alert-action');
+    setTimeout(function() {
+        $div2.hide();
+    }, 3000);
+});
 </script>
+
+
+
 
 </body>
 

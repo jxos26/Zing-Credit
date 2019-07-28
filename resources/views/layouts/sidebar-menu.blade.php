@@ -89,7 +89,7 @@
         </form>
         <!-- Navigation -->
         <ul class="navbar-nav">
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             @if(Auth::user()->type == "ADMIN")
                 <a class="nav-link text-primary" href="/admin/summary" class="dropdown-item">
             @else
@@ -97,8 +97,8 @@
             @endif
               <i class="ni ni-calendar-grid-58 "></i> Summary
             </a>
-          </li>
-          <li class="nav-item">
+          </li> -->
+          <!-- <li class="nav-item">
             <a class="nav-link  text-primary" href="">
               <i class="ni ni-planet"></i> Call Tracking
             </a>
@@ -107,25 +107,21 @@
             <a class="nav-link  text-primary" href="">
               <i class="ni ni-sound-wave"></i> Website Analytics
             </a>
-          </li>
+          </li> -->
           <li class="nav-item">
-            @if(Auth::user()->type == "ADMIN")
-                <a class="nav-link  text-primary" href="/admin/zing-credit" class="dropdown-item">
-            @else
-                <a class="nav-link  text-primary" href="/zing-credit" class="dropdown-item">
-            @endif
+            <a class="nav-link  text-primary" href="/zing-credit" class="dropdown-item">
               <i class="ni ni-credit-card"></i> Zing Credit
             </a>            
           </li>
           @if(Auth::user()->type == "ADMIN")
           <li class="nav-item">           
-                <a class="nav-link  text-primary" href="/admin/clients" class="dropdown-item">          
+                <a class="nav-link  text-primary" href="/users" class="dropdown-item">          
            
-              <i class="ni ni-single-02"></i> Clients
+              <i class="ni ni-single-02"></i> Users
             </a>            
           </li>
           @endif
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link  text-primary" href="">
               <i class="ni ni-bullet-list-67"></i> Paid Search
             </a>
@@ -164,7 +160,7 @@
             <a class="nav-link  text-primary" href="">
               <i class="ni ni-briefcase-24"></i> Billing
             </a>
-          </li>
+          </li> -->
         </ul>
         
       </div>

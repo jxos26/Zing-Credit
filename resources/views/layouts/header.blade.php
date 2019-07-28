@@ -8,16 +8,16 @@
     <meta name="author" content="Creative Tim">
     <title>@yield('pageTitle') | AutoOptic</title>
     <!-- Favicon -->
-    <link href="../images/icon.png" rel="icon" type="image/png">
+    <link href="/images/icon.png" rel="icon" type="image/png">
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <!-- Icons -->
-    <link href="../assets/vendor/nucleo/css/nucleo.css" rel="stylesheet">
-    <link href="../assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/assets/vendor/nucleo/css/nucleo.css" rel="stylesheet">
+    <link href="/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
     @yield('pagespecificstylesheet')
     <!-- Argon CSS -->
-    <link type="text/css" href="../assets/css/argon.css?v=1.0.0" rel="stylesheet">
-    <link type="text/css" href="../assets/css/custom.css" rel="stylesheet">
+    <link type="text/css" href="/assets/css/argon.css?v=1.0.0" rel="stylesheet">
+    <link type="text/css" href="/assets/css/custom.css" rel="stylesheet">
 
     
 
@@ -26,9 +26,9 @@
 
 @if (Auth::check())
   @include('layouts.sidebar-menu')   
-  <body>
+  <body data-token="{{ csrf_token() }}">
 @else
-  <body class="bg-default">
+  <body class="bg-default" data-token="{{ csrf_token() }}">
 @endif
 
     

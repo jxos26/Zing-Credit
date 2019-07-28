@@ -50,27 +50,27 @@ class LoginController extends Controller
     
         // Validate the form data
         $this->validate($request, [
-            'username'   => 'required|max:20',
+            'email'   => 'required|email',
             'password' => 'required|min:6'
         ]);
         
 
-        if($this->userCheck($request->username) == 1)
+        if($this->userCheck($request->email) == 1)
         {            
             // Attempt to log the user in
-            if (Auth::guard()->attempt(['username' => $request->username, 'password' => $request->password], $request->remember)) {
+            if (Auth::guard()->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
                 // if successful, then redirect to their intended location
                 return redirect('/summary');
             }else{
-                return redirect()->back()->withInput($request->only('username', 'remember'))->with('error','Username and Password did not Match!');
+                return redirect()->back()->withInput($request->only('email', 'remember'))->with('error','Email and Password did not Match!');
             }
         }else{
-            if($this->pendingCheck($request->username) == 1)
+            if($this->pendingCheck($request->email) == 1)
             {
                 return redirect('/pending-account');
             }else{
             // if unsuccessful, then redirect back to the login with the form data
-                return redirect()->back()->withInput($request->only('username', 'remember'))->with('error','Failed to login!');
+                return redirect()->back()->withInput($request->only('email', 'remember'))->with('error','Failed to login!');
             }
         }
     }
@@ -81,15 +81,15 @@ class LoginController extends Controller
         return redirect('/');
     }
 
-    function userCheck($username)
+    function userCheck($email)
     {
-      $user = DB::connection('mysql')->table('users')->where('username',$username)->where('status','ACTIVE')->count();
+      $user = DB::connection('mysql')->table('users')->where('email',$email)->where('status','ACTIVE')->count();
       return $user;
     }
 
-    function pendingCheck($username)
+    function pendingCheck($email)
     {
-      $user = DB::connection('mysql')->table('users')->where('username',$username)->where('status','PENDING')->count();
+      $user = DB::connection('mysql')->table('users')->where('username',$email)->where('status','PENDING')->count();
       return $user;
     }
 

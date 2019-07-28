@@ -34,3 +34,53 @@
 #datatable-basic_filter{
     margin-right:20px;
 }
+
+div.dt-buttons {
+    float: right;
+}
+.dataTables_filter {
+   float: left !important;
+   margin-left:210px;   
+}
+#datatable-basic_length{
+    margin-bottom:-50px;
+}
+.dt-buttons.btn-group{
+    margin-bottom:20px;
+}
+#date_range .form-group input{
+    margin-bottom: 15px;  
+}
+#datatable-buttons_wrapper .dataTables_filter {
+    margin-left:20px !important;   
+ }
+@media only screen and (max-width:767px){
+    #datatable-basic .dataTables_filter {
+       float: right !important;        
+    }
+    #datatable-basic_length{
+       float:left !important;
+    }
+}
+@media only screen and (max-width:500px){
+    .dataTables_filter {
+       margin-top:50px;        
+    }
+}
+
+/*#date_range .form-group input[type="text"], #date_range .form-group select{
+    width:250px;   
+} */
+
+.dropdown-menu>li>a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap;
+}
+.dropdown-menu>li>a:hover{
+    background:#c5c5c580;
+}

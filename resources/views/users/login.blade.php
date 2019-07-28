@@ -95,7 +95,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="ni ni-circle-08"></i></span>
                                     </div>
-                                    <input class="form-control" placeholder="Username..." name="username" type="text"
+                                    <input class="form-control" placeholder="Email..." name="email" type="email"
                                         required>
                                     @error('email')
                                     <span class="invalid-feedback" role="alert">

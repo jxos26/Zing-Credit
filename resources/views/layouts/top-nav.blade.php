@@ -31,20 +31,12 @@
               <div class=" dropdown-header noti-title">
                 <h6 class="text-overflow m-0">Welcome {{Auth::user()->firstname .' '.Auth::user()->lastname}}!</h6>
               </div>
-              @if(Auth::user()->type == "ADMIN")
-                <a href="/admin/profile" class="dropdown-item">
-              @else
                 <a href="/profile" class="dropdown-item">
-              @endif
                 <i class="ni ni-single-02"></i>
                 <span>My profile</span>
               </a>
               <div class="dropdown-divider"></div>
-              @if(Auth::user()->type == "ADMIN")
-                <a href="/admin/logout" class="dropdown-item">
-              @else
                 <a href="/logout" class="dropdown-item">
-              @endif
               
                 <i class="ni ni-user-run"></i>
                 <span>Logout</span>

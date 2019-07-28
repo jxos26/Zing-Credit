@@ -13,19 +13,19 @@ class CreateAdminsTable extends Migration
      */
     public function up()
     {
-        Schema::create('admins', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('firstname',50);
-            $table->string('middlename',50)->nullable();
-            $table->string('lastname',50);            
-            $table->string('username',50)->unique();
-            $table->string('email',100)->unique();
-            $table->string('password');
-            $table->string('img',250);
-            $table->string('type',10);
-            $table->rememberToken();
-            $table->timestamps();
-        });
+        // Schema::create('admins', function (Blueprint $table) {
+        //     $table->increments('id');
+        //     $table->string('firstname',50);
+        //     $table->string('middlename',50)->nullable();
+        //     $table->string('lastname',50);            
+        //     $table->string('username',50)->unique();
+        //     $table->string('email',100)->unique();
+        //     $table->string('password');
+        //     $table->string('img',250);
+        //     $table->string('type',10);
+        //     $table->rememberToken();
+        //     $table->timestamps();
+        // });
     }
 
     /**

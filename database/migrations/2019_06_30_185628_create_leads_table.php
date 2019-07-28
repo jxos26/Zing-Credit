@@ -15,6 +15,7 @@ class CreateLeadsTable extends Migration
     {
         Schema::create('leads', function (Blueprint $table) {
             $table->increments('code')->autoIncrement();
+            $table->string('company',225);
             $table->string('name',50);
             $table->string('email',100);
             $table->string('mphone',10);

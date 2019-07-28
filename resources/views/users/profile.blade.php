@@ -115,7 +115,7 @@
                                     class="font-weight-light"></span>
                             </h3>
                             <div class="h5 font-weight-300">
-                                <i class="ni location_pin mr-2"></i>{{Auth::user()->username}}
+                                <i class="ni location_pin mr-2"></i>{{Auth::user()->client}}
                             </div>
                             <div class="h5 font-weight-300">
                                 <i class="ni business_briefcase-24 mr-2"></i> {{Auth::user()->email}}
@@ -167,10 +167,8 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
-                                            <label class="form-control-label" for="input-username">Username</label>
-                                            <input type="text" id="input-username"
-                                                class="form-control form-control-alternative" name="username"
-                                                placeholder="Username" value="{{Auth::user()->username}}">
+                                            <label class="form-control-label" for="input-username">Client</label>
+                                            {{Auth::user()->client}}
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
