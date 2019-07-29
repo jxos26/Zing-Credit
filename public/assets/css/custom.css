@@ -84,3 +84,7 @@ div.dt-buttons {
 .dropdown-menu>li>a:hover{
     background:#c5c5c580;
 }
+
+#daterange{
+    display: none;
+}

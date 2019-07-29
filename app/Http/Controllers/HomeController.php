@@ -142,11 +142,11 @@ class HomeController extends Controller
             $company  = "";
         }
         
-       
+        $dr = "";
         $company_title = "";
         $title = "ZING CREDIT";
         $leads_filter = "Last 30 Days";
-        return view('users.zing-credit', compact('title','labels','datas','title','leads','leads_filter','company','company_title'));
+        return view('users.zing-credit', compact('title','labels','datas','title','leads','leads_filter','company','company_title','dr'));
     }
 
     public function zingCreditToday()
@@ -192,10 +192,10 @@ class HomeController extends Controller
         }
 
         $company_title = "";
-        
+        $dr= "";
         $title = "ZING CREDIT";
         $leads_filter = "Today";
-        return view('users.zing-credit', compact('title','leads','labels','datas','leads_filter','company','company_title'));        
+        return view('users.zing-credit', compact('title','leads','labels','datas','leads_filter','company','company_title','dr'));        
     }
 
     public function zingCreditYesterday()
@@ -238,11 +238,11 @@ class HomeController extends Controller
             $leads = DB::connection('mysql')->table('leads')->where('company',$user->company)->where('created_at','LIKE','%'.$rd.'%')->get();
             $company = "";
         }
-        
+        $dr = "";
         $company_title = "";
         $title = "ZING CREDIT";
         $leads_filter = "Yesterday";
-        return view('users.zing-credit', compact('title','leads','labels','datas','leads_filter','company','company_title'));
+        return view('users.zing-credit', compact('title','leads','labels','datas','leads_filter','company','company_title','dr'));
     }
 
     public function zingCreditLast7Days()
@@ -277,13 +277,13 @@ class HomeController extends Controller
         $datas = json_encode($data);
 
         $company_title = "";
-
+        $dr = '';
         $title = "ZING CREDIT";
         $leads_filter = "Last 7 Days";
-        return view('users.zing-credit', compact('title','leads','labels','datas','leads_filter','company','company_title'));
+        return view('users.zing-credit', compact('title','leads','labels','datas','leads_filter','company','company_title','dr'));
     }
 
-    public function zingCreditDateRange(Request $request)
+    public function zingCreditDateRange($start,$end)
     {
         $user = $this->userLogged();
         
@@ -295,8 +295,9 @@ class HomeController extends Controller
             $company = "";
         }
 
-        $date1 = date('Y-m-d', strtotime($request->start_date));
-        $date2 = date('Y-m-d', strtotime($request->end_date));
+        $date1 = date('Y-m-d', strtotime($start));
+        $date2 = date('Y-m-d', strtotime($end));
+        $dr = date('m/d/Y', strtotime($date1)) .' - '. date('m/d/Y', strtotime($date2));
         $label = array();
         $data = array();
         while (strtotime($date1) <= strtotime($date2)) {
@@ -316,10 +317,10 @@ class HomeController extends Controller
         $datas = json_encode($data);
 
         $company_title = "";
-
+        
         $title = "ZING CREDIT";
-        $leads_filter = 'FROM : '.date('F d Y', strtotime($request->start_date)) .' TO : '.date('F d Y', strtotime($request->end_date));
-        return view('users.zing-credit', compact('title','leads','labels','datas','leads_filter','company','company_title'));
+        $leads_filter = 'FROM : '.date('F d Y', strtotime($start)) .' TO : '.date('F d Y', strtotime($end));
+        return view('users.zing-credit', compact('title','leads','labels','datas','leads_filter','company','company_title','dr'));
     }
 
     public function zingCreditCompany($company)
@@ -345,9 +346,9 @@ class HomeController extends Controller
         $leads = DB::connection('mysql')->table('leads')->where('company',$company)->get();       
 
         $company = DB::connection('mysql')->table('leads')->groupBy('company')->get();
-
+        $dr = "";
         $title = "ZING CREDIT";        
-        return view('users.zing-credit', compact('title','leads','labels','datas','leads_filter','company','company_title'));
+        return view('users.zing-credit', compact('title','leads','labels','datas','leads_filter','company','company_title','dr'));
     }
 
 

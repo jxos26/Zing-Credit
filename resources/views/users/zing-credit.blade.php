@@ -8,6 +8,8 @@
 <link rel="stylesheet" href="/assets/vendor/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css">
 <link rel="stylesheet" href="/assets/vendor/datatables.net-select-bs4/css/select.bootstrap4.min.css">
 
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
 @stop
 
 @section('content')
@@ -48,8 +50,7 @@
                         data-selected="{{$leads_filter}}" data-toggle="dropdown">Select Custom
                         <span class="caret"></span></button>
                     <ul class="dropdown-menu" id="selectedCustomRecord">
-                        <li><a data-toggle="modal" data-target="#selectCustom" data-selected="Date Range">Date
-                                Range</a></li>
+                        <li><a id="dateRangeSelected" href="javascript:;" data-selected="Date Range">Date Range</a></li>
                         <li><a href="{{ route('zing.credit.today') }}" data-selected="Today">Today</a></li>
                         <li><a href="{{ route('zing.credit.yesterday') }}" data-selected="Yesterday">Yesterday</a></li>
                         <li><a href="{{ route('zing.credit.Last7Days') }}" data-selected="Last 7 Days">Last 7 Days</a>
@@ -58,6 +59,13 @@
                                 Days</a></li>
                     </ul>
                 </div>
+
+                <div class="dropdown" >
+                    <input type="text" name="daterange" id="daterange" class="form-control" value="{{$dr}}" />
+                </div>
+
+
+
             </div>
         </div>
         <br />
@@ -196,15 +204,11 @@
                     <div class="modal-body">
                         <div class="py-3">
 
-                            <form method="POST" action="{{ route('zing.credit.DateRange') }}" id="date_range"
+                            <form method="POST" action="" id="date_range"
                                 _lpchecked="1" class="">
                                 @csrf
                                 <div class="form-group">
-                                    <input class="form-control datepicker" name="start_date" placeholder="Start Date"
-                                        type="text" required>
-                                    <input class="form-control datepicker" name="end_date" placeholder="End Date"
-                                        type="text" required>
-                                    <input type="submit" class="btn btn-success" name="go" value="Search">
+                                   
                                 </div>
                             </form>
 
@@ -219,7 +223,7 @@
 
         @section('pagespecificscripts')
 
-        <script src="/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+       
         <!-- Optional JS -->
         <script src="/assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
         <script src="/assets/vendor/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -233,6 +237,11 @@
         <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
 
 
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js">
+        </script>
+
+
 
         <!-- Optional JS -->
         <script src="/assets/vendor/chart.js/dist/Chart.min.js"></script>
@@ -241,26 +250,51 @@
 
 
         <script>
+
+        $(document).on("click", "#dateRangeSelected", function(){  
+            var v = $("#dateRangeSelected").data('selected');
+            if(v === 'Date Range'){
+                $("#btnCustomRecord").text("Date Range");
+                $("#daterange").show();
+            }else{
+                $("#daterange").hide();
+            }
+        });
+        
+
         $(document).ready(function() {
-            var v = $("#btnCustomRecord").data('selected');
+            var v = $("#btnCustomRecord").data('selected');            
+
             $("#title_filter").text(v.toUpperCase());
             if (v !== '') {
                 if (window.location.href.indexOf("last-30-days") > -1 || window.location.href.indexOf(
                         "last-7-days") > -1 || window.location.href.indexOf("today") > -1 || window.location
                     .href.indexOf("yesterday") > -1) {
                     $("#btnCustomRecord").text(v);
+                }else if (window.location.href.indexOf("date-range")  > -1) {
+                    $("#btnCustomRecord").text("Date Range");
+                    $("#daterange").show();
                 } else {
                     $("#btnCustomRecord").text("Select Custom");
                 }
             }
-
             var c = $("#btnCompanyRecord").data('selected');
-
-            if (c !== ''){
+            if (c !== '') {
                 $("#btnCompanyRecord").text(c);
             }
+        });
 
+        $(function() {
+            $('input[name="daterange"]').daterangepicker({
+                opens: 'left'
+            }, function(start, end, label) {
+                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' +
+                    end.format('YYYY-MM-DD'));
 
+                    window.location.replace("/zing-credit/date-range/"+start.format('YYYY-MM-DD')+"/"+end.format('YYYY-MM-DD'));
+
+                    //alert(start.format('YYYY-MM-DD') +' - '+ end.format('YYYY-MM-DD'));
+            });
         });
         </script>
 
