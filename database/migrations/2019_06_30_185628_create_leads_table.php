@@ -29,7 +29,6 @@ class CreateLeadsTable extends Migration
             $table->date('dob');
             $table->string('score',5);
             $table->string('amount',20);
-            $table->string('remember_token', 100);
             $table->timestamps();
         });
     }
