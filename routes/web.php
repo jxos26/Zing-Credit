@@ -39,6 +39,12 @@ Route::get('/zing-credit/last-30-days', 'HomeController@zingCredit')->name('zing
 Route::get('/zing-credit/date-range/{start}/{end}', 'HomeController@zingCreditDateRange')->name('zing.credit.DateRange');
 Route::get('/zing-credit/company/{company}', 'HomeController@zingCreditCompany')->name('zing.credit.Company');
 
+Route::get('/zing-credit/{company}/today', 'HomeController@zingCreditTodayCompany');
+Route::get('/zing-credit/{company}/yesterday', 'HomeController@zingCreditYesterdayCompany');
+Route::get('/zing-credit/{company}/last-7-days', 'HomeController@zingCreditLast7DaysCompany');
+Route::get('/zing-credit/{company}/last-30-days', 'HomeController@zingCreditLast30DaysCompany');
+Route::get('/zing-credit/{company}/date-range/{start}/{end}', 'HomeController@zingCreditDateRangeCompany');
+
 Route::get('/users', 'HomeController@getUsers')->name('get.users');
 Route::post('/user/register', 'HomeController@userRegister')->name('user.register');
 Route::get('/user/disable/{id}', 'HomeController@disabledUser');

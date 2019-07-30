@@ -33,10 +33,11 @@
                 @if(Auth::user()->type == "ADMIN")
                 <div class="dropdown">
                     <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown"
-                        id="btnCompanyRecord" data-selected="{{$company_title}}">Select Company
+                        id="btnCompanyRecord" data-selected="{{$company_title}}" >Select Company
                         <span class="caret"></span></button>
                     <ul class="dropdown-menu" id="selectedCompanyRecord">
                         @if($company)
+                        <li><a href="/zing-credit/company/All Company">All Company</a></li>
                         @foreach($company as $l)
                         <li><a href="/zing-credit/company/{{$l->company}}">{{$l->company}}</a></li>
                         @endforeach
@@ -50,13 +51,24 @@
                         data-selected="{{$leads_filter}}" data-toggle="dropdown">Select Custom
                         <span class="caret"></span></button>
                     <ul class="dropdown-menu" id="selectedCustomRecord">
-                        <li><a id="dateRangeSelected" href="javascript:;" data-selected="Date Range">Date Range</a></li>
-                        <li><a href="{{ route('zing.credit.today') }}" data-selected="Today">Today</a></li>
-                        <li><a href="{{ route('zing.credit.yesterday') }}" data-selected="Yesterday">Yesterday</a></li>
-                        <li><a href="{{ route('zing.credit.Last7Days') }}" data-selected="Last 7 Days">Last 7 Days</a>
-                        </li>
-                        <li><a href="{{ route('zing.credit.Last30Days') }}" data-selected="Last 30 Days">Last 30
-                                Days</a></li>
+                        @if($company_title)
+                            <li><a id="dateRangeSelected" href="javascript:;" data-selected="Date Range">Date Range</a></li>
+                            <li><a href="/zing-credit/{{$company_title}}/today" data-selected="Today">Today</a></li>
+                            <li><a href="/zing-credit/{{$company_title}}/yesterday" data-selected="Yesterday">Yesterday</a></li>
+                            <li><a href="/zing-credit/{{$company_title}}/last-7-days" data-selected="Last 7 Days">Last 7 Days</a>
+                            </li>
+                            <li><a href="/zing-credit/{{$company_title}}/last-30-days" data-selected="Last 30 Days">Last 30
+                                    Days</a></li>
+                        @else
+                            <li><a id="dateRangeSelected" href="javascript:;" data-selected="Date Range">Date Range</a></li>
+                            <li><a href="{{ route('zing.credit.today') }}" data-selected="Today">Today</a></li>
+                            <li><a href="{{ route('zing.credit.yesterday') }}" data-selected="Yesterday">Yesterday</a></li>
+                            <li><a href="{{ route('zing.credit.Last7Days') }}" data-selected="Last 7 Days">Last 7 Days</a>
+                            </li>
+                            <li><a href="{{ route('zing.credit.Last30Days') }}" data-selected="Last 30 Days">Last 30
+                                    Days</a></li>
+                        @endif
+                        
                     </ul>
                 </div>
 
@@ -263,10 +275,25 @@
         
 
         $(document).ready(function() {
-            var v = $("#btnCustomRecord").data('selected');            
+            var v = $("#btnCustomRecord").data('selected'); 
+            var c = $("#btnCompanyRecord").data('selected');
 
-            $("#title_filter").text(v.toUpperCase());
+            if (c !== '') {
+                $("#btnCompanyRecord").text(c);
+                if(window.location.href.indexOf("company") > -1){
+                    $("#title_filter").text(v.toUpperCase());
+                }else{
+                    $("#title_filter").text(c.toUpperCase()+' '+v.toUpperCase());
+                }
+               
+            }else{
+                $("#title_filter").text(v.toUpperCase());
+            }            
+
+           
+
             if (v !== '') {
+                
                 if (window.location.href.indexOf("last-30-days") > -1 || window.location.href.indexOf(
                         "last-7-days") > -1 || window.location.href.indexOf("today") > -1 || window.location
                     .href.indexOf("yesterday") > -1) {
@@ -278,10 +305,7 @@
                     $("#btnCustomRecord").text("Select Custom");
                 }
             }
-            var c = $("#btnCompanyRecord").data('selected');
-            if (c !== '') {
-                $("#btnCompanyRecord").text(c);
-            }
+            
         });
 
         $(function() {
@@ -291,7 +315,13 @@
                 console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' +
                     end.format('YYYY-MM-DD'));
 
-                    window.location.replace("/zing-credit/date-range/"+start.format('YYYY-MM-DD')+"/"+end.format('YYYY-MM-DD'));
+                    var v = $("#btnCompanyRecord").data('selected');
+
+                    if(v !== ''){
+                        window.location.replace("/zing-credit/{{$company_title}}/date-range/"+start.format('YYYY-MM-DD')+"/"+end.format('YYYY-MM-DD'));
+                    }else{                        
+                        window.location.replace("/zing-credit/date-range/"+start.format('YYYY-MM-DD')+"/"+end.format('YYYY-MM-DD'));
+                    }                  
 
                     //alert(start.format('YYYY-MM-DD') +' - '+ end.format('YYYY-MM-DD'));
             });

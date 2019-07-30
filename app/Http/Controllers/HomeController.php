@@ -328,26 +328,264 @@ class HomeController extends Controller
         
         $dt = date('Y-m-d', strtotime('today - 30 days'));
         
-        $leads_filter = $company." Leads for the last 30 Days";
+        $leads_filter = $company. " Leads for the last 30 Days";
         $company_title = $company;
 
         $label = array();
         $data = array();
         for ($i=1;$i <=30; $i++){        
             $d = date('Y-m-d', strtotime($dt. '+'.$i.' day'));                   
-            $label[] = date('M d',strtotime($d));     
-            $records = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.$d.'%')->count();
+            $label[] = date('M d',strtotime($d));    
+            if ($company == 'All Company') {
+                $records = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.$d.'%')->count();
+            }else{
+                $records = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.$d.'%')->count();
+            }
+            
             $data[] = $records;
         }
 
         $labels = json_encode($label);
         $datas = json_encode($data);
 
-        $leads = DB::connection('mysql')->table('leads')->where('company',$company)->get();       
+        if ($company == 'All Company') {
+            $leads = DB::connection('mysql')->table('leads')->get();  
+        }else{
+            $leads = DB::connection('mysql')->table('leads')->where('company',$company)->get();  
+        }
+
+             
 
         $company = DB::connection('mysql')->table('leads')->groupBy('company')->get();
         $dr = "";
         $title = "ZING CREDIT";        
+        return view('users.zing-credit', compact('title','leads','labels','datas','leads_filter','company','company_title','dr'));
+    }
+    
+    public function zingCreditLast30DaysCompany($company)
+    {
+
+        $user = $this->userLogged();
+        
+        $company_title = $company;
+        $leads_filter = "Last 30 Days";
+
+        $dt = date('Y-m-d', strtotime('today - 30 days'));
+
+        $label = array();
+        $data = array();
+        for ($i=1;$i <=30; $i++){        
+            $d = date('Y-m-d', strtotime($dt. '+'.$i.' day'));                   
+            $label[] = date('M d',strtotime($d)); 
+            if ($company == "ALL COMPANY"){
+                $records = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.$d.'%')->count();
+            }else{
+                $records = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.$d.'%')->count();
+            }   
+        
+            $data[] = $records;
+        }
+
+        $labels = json_encode($label);
+        $datas = json_encode($data);
+        
+        if ($company == "ALL COMPANY"){
+            $leads = DB::connection('mysql')->table('leads')->get();           
+        }else{
+            $leads = DB::connection('mysql')->table('leads')->where('company',$company)->get();            
+        }
+
+        $company = DB::connection('mysql')->table('leads')->groupBy('company')->get();
+        
+        $dr = "";
+        $title = "ZING CREDIT";        
+        return view('users.zing-credit', compact('title','labels','datas','title','leads','leads_filter','company','company_title','dr'));
+    }
+
+
+    public function zingCreditTodayCompany($company)
+    {
+            
+        $user = $this->userLogged();
+
+
+        $company_title = $company;
+        $leads_filter = "Today";
+    
+        $label = array();
+        $data = array();
+        
+        $rd = date('Y-m-d');
+        $i=0;
+        while($i <= 23){
+
+            $l = strlen($i);            
+            if($l == 1 ){
+                $d =  date('Y-m-d') .' 0'.$i.':00'; 
+            }else{
+                $d =  date('Y-m-d') .' '.$i.':00'; 
+            }           
+            
+            $label[] = date('h A',strtotime($d));
+            if ($company == "ALL COMPANY"){
+                $records = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.date('Y-m-d H', strtotime($d)).'%')->count();
+            }else{
+                $records = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.date('Y-m-d H', strtotime($d)).'%')->count();
+            }
+        
+            $data[] = $records;
+
+            $i+=1;
+        }     
+
+        $labels = json_encode($label);
+        $datas = json_encode($data);
+        
+        if ($company == "ALL COMPANY"){
+            $leads = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.date('Y-m-d').'%')->get(); 
+            
+        }else{
+            $leads = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.date('Y-m-d').'%')->get();             
+        }
+
+        $company = DB::connection('mysql')->table('leads')->groupBy('company')->get();
+        
+        $dr= "";
+        $title = "ZING CREDIT";
+        return view('users.zing-credit', compact('title','leads','labels','datas','leads_filter','company','company_title','dr'));        
+    }
+
+    public function zingCreditYesterdayCompany($company)
+    {
+            
+        $user = $this->userLogged();
+        $company_title = $company;
+        $leads_filter = "Yesterday";
+
+        $label = array();
+        $data = array();
+        
+        $rd = date('Y-m-d', strtotime('today - 1 days'));        
+        $i=0;
+        while($i <= 23){
+
+            $l = strlen($i);            
+            if($l == 1 ){
+                $d =  $rd  .' 0'.$i.':00'; 
+            }else{
+                $d =  $rd  .' '.$i.':00'; 
+            }           
+            
+            $label[] = date('h A',strtotime($d));
+            if ($company == "ALL COMPANY"){
+                $records = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.date('Y-m-d H', strtotime($d)).'%')->count();
+            }else{
+                $records = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.date('Y-m-d H', strtotime($d)).'%')->count();
+            }
+            
+            $data[] = $records;
+
+            $i+=1;
+        }     
+
+        $labels = json_encode($label);
+        $datas = json_encode($data);
+        
+        if ($company == "ALL COMPANY"){
+            $leads = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.$rd.'%')->get();
+            
+        }else{
+            $leads = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.$rd.'%')->get();
+        }
+        $dr = "";
+
+        $company = DB::connection('mysql')->table('leads')->groupBy('company')->get();
+        
+        $title = "ZING CREDIT";        
+        return view('users.zing-credit', compact('title','leads','labels','datas','leads_filter','company','company_title','dr'));
+    }
+
+    public function zingCreditLast7DaysCompany($company)
+    {
+        $user = $this->userLogged();
+        $company_title = $company;
+        $leads_filter = "Last 7 Days";
+
+        
+
+        $dt = date('Y-m-d', strtotime('today - 7 days'));
+
+        $label = array();
+        $data = array();
+        for ($i=1;$i <=7; $i++){        
+            $d = date('Y-m-d', strtotime($dt. '+'.$i.' day'));                   
+            $label[] = date('M d',strtotime($d));  
+            if ($company == "ALL COMPANY"){
+                $records = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.$d.'%')->count();
+            }else{
+                $records = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.$d.'%')->count();
+            }   
+            
+            $data[] = $records;
+        }
+
+        $labels = json_encode($label);
+        $datas = json_encode($data);
+
+        if ($company == "ALL COMPANY"){
+            $leads = DB::connection('mysql')->table('leads')->get();            
+        }else{
+            $leads = DB::connection('mysql')->table('leads')->where('company',$company)->get();
+        }
+        
+        $company = DB::connection('mysql')->table('leads')->groupBy('company')->get();
+        
+        $dr = '';
+        $title = "ZING CREDIT";
+        
+        return view('users.zing-credit', compact('title','leads','labels','datas','leads_filter','company','company_title','dr'));
+    }
+
+    public function zingCreditDateRangeCompany($company,$start,$end)
+    {
+        $user = $this->userLogged();
+
+        $company_title = $company;
+        $leads_filter = 'FROM : '.date('F d Y', strtotime($start)) .' TO : '.date('F d Y', strtotime($end));
+        
+        $date1 = date('Y-m-d', strtotime($start));
+        $date2 = date('Y-m-d', strtotime($end));
+        $dr = date('m/d/Y', strtotime($date1)) .' - '. date('m/d/Y', strtotime($date2));
+        $label = array();
+        $data = array();
+        while (strtotime($date1) <= strtotime($date2)) {
+
+            $label[] = date('F d',strtotime($date1));    
+            if ($company == "ALL COMPANY"){
+                $records = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.$date1.'%')->count();
+            }else{
+                $records = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.$date1.'%')->count();
+            }
+            
+            $data[] = $records;
+            $date1 = date ("Y-m-d", strtotime("+1 days", strtotime($date1)));
+        }
+
+        $labels = json_encode($label);
+        $datas = json_encode($data);
+
+        if ($company == "ALL COMPANY"){
+            $leads = DB::connection('mysql')->table('leads')->get();           
+        }else{
+            $leads = DB::connection('mysql')->table('leads')->where('company',$company)->get();
+        
+        }
+        $company = DB::connection('mysql')->table('leads')->groupBy('company')->get();
+
+        
+        
+        $title = "ZING CREDIT";
+        
         return view('users.zing-credit', compact('title','leads','labels','datas','leads_filter','company','company_title','dr'));
     }
 
