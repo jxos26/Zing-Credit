@@ -30,49 +30,50 @@
     <div class="container-fluid mt--9">
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                @if(Auth::user()->type == "ADMIN")
                 <div class="dropdown">
                     <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown"
-                        id="btnCompanyRecord" data-selected="{{$company_title}}" >Select Company
+                        id="btnCompanyRecord" data-selected="{{$company_title}}">Select Company
                         <span class="caret"></span></button>
-                    <ul class="dropdown-menu" id="selectedCompanyRecord">
+                    <ul class="dropdown-menu" id="selectedCompanyRecord ">
                         @if($company)
+                        @if($company != '[]')
                         <li><a href="/zing-credit/company/All Company">All Company</a></li>
+                        @endif
                         @foreach($company as $l)
                         <li><a href="/zing-credit/company/{{$l->company}}">{{$l->company}}</a></li>
                         @endforeach
                         @endif
                     </ul>
                 </div>
-                @endif
-
                 <div class="dropdown">
                     <button class="btn btn-info dropdown-toggle" type="button" id="btnCustomRecord"
                         data-selected="{{$leads_filter}}" data-toggle="dropdown">Select Custom
                         <span class="caret"></span></button>
                     <ul class="dropdown-menu" id="selectedCustomRecord">
                         @if($company_title)
-                            <li><a id="dateRangeSelected" href="javascript:;" data-selected="Date Range">Date Range</a></li>
-                            <li><a href="/zing-credit/{{$company_title}}/today" data-selected="Today">Today</a></li>
-                            <li><a href="/zing-credit/{{$company_title}}/yesterday" data-selected="Yesterday">Yesterday</a></li>
-                            <li><a href="/zing-credit/{{$company_title}}/last-7-days" data-selected="Last 7 Days">Last 7 Days</a>
-                            </li>
-                            <li><a href="/zing-credit/{{$company_title}}/last-30-days" data-selected="Last 30 Days">Last 30
-                                    Days</a></li>
+                        <li><a id="dateRangeSelected" href="javascript:;" data-selected="Date Range">Date Range</a></li>
+                        <li><a href="/zing-credit/{{$company_title}}/today" data-selected="Today">Today</a></li>
+                        <li><a href="/zing-credit/{{$company_title}}/yesterday" data-selected="Yesterday">Yesterday</a>
+                        </li>
+                        <li><a href="/zing-credit/{{$company_title}}/last-7-days" data-selected="Last 7 Days">Last 7
+                                Days</a>
+                        </li>
+                        <li><a href="/zing-credit/{{$company_title}}/last-30-days" data-selected="Last 30 Days">Last 30
+                                Days</a></li>
                         @else
-                            <li><a id="dateRangeSelected" href="javascript:;" data-selected="Date Range">Date Range</a></li>
-                            <li><a href="{{ route('zing.credit.today') }}" data-selected="Today">Today</a></li>
-                            <li><a href="{{ route('zing.credit.yesterday') }}" data-selected="Yesterday">Yesterday</a></li>
-                            <li><a href="{{ route('zing.credit.Last7Days') }}" data-selected="Last 7 Days">Last 7 Days</a>
-                            </li>
-                            <li><a href="{{ route('zing.credit.Last30Days') }}" data-selected="Last 30 Days">Last 30
-                                    Days</a></li>
+                        <li><a id="dateRangeSelected" href="javascript:;" data-selected="Date Range">Date Range</a></li>
+                        <li><a href="{{ route('zing.credit.today') }}" data-selected="Today">Today</a></li>
+                        <li><a href="{{ route('zing.credit.yesterday') }}" data-selected="Yesterday">Yesterday</a></li>
+                        <li><a href="{{ route('zing.credit.Last7Days') }}" data-selected="Last 7 Days">Last 7 Days</a>
+                        </li>
+                        <li><a href="{{ route('zing.credit.Last30Days') }}" data-selected="Last 30 Days">Last 30
+                                Days</a></li>
                         @endif
-                        
+
                     </ul>
                 </div>
 
-                <div class="dropdown" >
+                <div class="dropdown">
                     <input type="text" name="daterange" id="daterange" class="form-control" value="{{$dr}}" />
                 </div>
 
@@ -170,6 +171,8 @@
                             </thead>
                             <tbody>
 
+                                @if(Auth::user()->type == "ADMIN")
+
                                 @if($leads)
                                 @foreach($leads as $l)
                                 <tr>
@@ -191,10 +194,42 @@
                                     <td>${{number_format($l->amount,2)}}</td>
                                     @endif
                                     <td>{{date('F d, Y h:i a', strtotime($l->created_at))}}</td>
-
                                 </tr>
                                 @endforeach
                                 @endif
+
+                                @else
+
+                                @if($leads)
+                                @foreach($leads as $k)
+                                    @foreach($k as $l)
+                                    <tr>
+                                        <td>{{$l->company}}</td>
+                                        <td>{{$l->name}}</td>
+                                        <td>{{$l->email}}</td>
+                                        <td>{{$l->mphone}}</td>
+                                        <td>{{$l->address }}</td>
+                                        <td>{{$l->apartment }}</td>
+                                        <td>{{$l->city}}</td>
+                                        <td>{{$l->state}}</td>
+                                        <td>{{$l->category}}</td>
+                                        <td>{{$l->make}}</td>
+                                        <td>{{date('F d, Y', strtotime($l->dob))}}</td>
+                                        <td>{{$l->score}}</td>
+                                        @if($l->amount == "No Match")
+                                        <td>$l->amount</td>
+                                        @else
+                                        <td>${{number_format($l->amount,2)}}</td>
+                                        @endif
+                                        <td>{{date('F d, Y h:i a', strtotime($l->created_at))}}</td>
+                                    </tr>
+                                    @endforeach                                
+                                @endforeach
+                                @endif
+
+                                @endif
+
+
 
                             </tbody>
                         </table>
@@ -216,11 +251,10 @@
                     <div class="modal-body">
                         <div class="py-3">
 
-                            <form method="POST" action="" id="date_range"
-                                _lpchecked="1" class="">
+                            <form method="POST" action="" id="date_range" _lpchecked="1" class="">
                                 @csrf
                                 <div class="form-group">
-                                   
+
                                 </div>
                             </form>
 
@@ -235,7 +269,7 @@
 
         @section('pagespecificscripts')
 
-       
+
         <!-- Optional JS -->
         <script src="/assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
         <script src="/assets/vendor/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -262,50 +296,49 @@
 
 
         <script>
-
-        $(document).on("click", "#dateRangeSelected", function(){  
+        $(document).on("click", "#dateRangeSelected", function() {
             var v = $("#dateRangeSelected").data('selected');
-            if(v === 'Date Range'){
+            if (v === 'Date Range') {
                 $("#btnCustomRecord").text("Date Range");
                 $("#daterange").show();
-            }else{
+            } else {
                 $("#daterange").hide();
             }
         });
-        
+
 
         $(document).ready(function() {
-            var v = $("#btnCustomRecord").data('selected'); 
+            var v = $("#btnCustomRecord").data('selected');
             var c = $("#btnCompanyRecord").data('selected');
 
             if (c !== '') {
                 $("#btnCompanyRecord").text(c);
-                if(window.location.href.indexOf("company") > -1){
+                if (window.location.href.indexOf("company") > -1) {
                     $("#title_filter").text(v.toUpperCase());
-                }else{
-                    $("#title_filter").text(c.toUpperCase()+' '+v.toUpperCase());
+                } else {
+                    $("#title_filter").text(c.toUpperCase() + ' ' + v.toUpperCase());
                 }
-               
-            }else{
-                $("#title_filter").text(v.toUpperCase());
-            }            
 
-           
+            } else {
+                $("#title_filter").text(v.toUpperCase());
+            }
+
+
 
             if (v !== '') {
-                
+
                 if (window.location.href.indexOf("last-30-days") > -1 || window.location.href.indexOf(
                         "last-7-days") > -1 || window.location.href.indexOf("today") > -1 || window.location
                     .href.indexOf("yesterday") > -1) {
                     $("#btnCustomRecord").text(v);
-                }else if (window.location.href.indexOf("date-range")  > -1) {
+                } else if (window.location.href.indexOf("date-range") > -1) {
                     $("#btnCustomRecord").text("Date Range");
                     $("#daterange").show();
                 } else {
                     $("#btnCustomRecord").text("Select Custom");
                 }
             }
-            
+
         });
 
         $(function() {
@@ -315,15 +348,17 @@
                 console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' +
                     end.format('YYYY-MM-DD'));
 
-                    var v = $("#btnCompanyRecord").data('selected');
+                var v = $("#btnCompanyRecord").data('selected');
 
-                    if(v !== ''){
-                        window.location.replace("/zing-credit/{{$company_title}}/date-range/"+start.format('YYYY-MM-DD')+"/"+end.format('YYYY-MM-DD'));
-                    }else{                        
-                        window.location.replace("/zing-credit/date-range/"+start.format('YYYY-MM-DD')+"/"+end.format('YYYY-MM-DD'));
-                    }                  
+                if (v !== '') {
+                    window.location.replace("/zing-credit/{{$company_title}}/date-range/" + start
+                        .format('YYYY-MM-DD') + "/" + end.format('YYYY-MM-DD'));
+                } else {
+                    window.location.replace("/zing-credit/date-range/" + start.format('YYYY-MM-DD') +
+                        "/" + end.format('YYYY-MM-DD'));
+                }
 
-                    //alert(start.format('YYYY-MM-DD') +' - '+ end.format('YYYY-MM-DD'));
+                //alert(start.format('YYYY-MM-DD') +' - '+ end.format('YYYY-MM-DD'));
             });
         });
         </script>

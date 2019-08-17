@@ -125,7 +125,12 @@ class HomeController extends Controller
             if ($user->type == "ADMIN"){
                 $records = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.$d.'%')->count();
             }else{
-                $records = DB::connection('mysql')->table('leads')->where('company',$user->company)->where('created_at','LIKE','%'.$d.'%')->count();
+                $company = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();
+                $records = 0;                
+                foreach($company as $l){
+                    $r = DB::connection('mysql')->table('leads')->where('company',$l->company)->where('created_at','LIKE','%'.$d.'%')->count();
+                    $records += $r;
+                }  
             }   
         
             $data[] = $records;
@@ -138,8 +143,12 @@ class HomeController extends Controller
             $leads = DB::connection('mysql')->table('leads')->get();
             $company = DB::connection('mysql')->table('leads')->groupBy('company')->get();
         }else{
-            $leads = DB::connection('mysql')->table('leads')->where('company',$user->company)->get();
-            $company  = "";
+            
+            $company = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();
+            $leads = array();
+            foreach($company as $l){
+                $leads[] = DB::connection('mysql')->table('leads')->where('company', $l->company)->get();
+            }         
         }
         
         $dr = "";
@@ -172,7 +181,12 @@ class HomeController extends Controller
             if ($user->type == "ADMIN"){
                 $records = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.date('Y-m-d H', strtotime($d)).'%')->count();
             }else{
-                $records = DB::connection('mysql')->table('leads')->where('company',$user->company)->where('created_at','LIKE','%'.date('Y-m-d H', strtotime($d)).'%')->count();
+                $company = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();
+                $records = 0;                
+                foreach($company as $l){
+                    $r = DB::connection('mysql')->table('leads')->where('company',$l->company)->where('created_at','LIKE','%'.date('Y-m-d H', strtotime($d)).'%')->count();
+                    $records += $r;
+                } 
             }
         
             $data[] = $records;
@@ -186,9 +200,12 @@ class HomeController extends Controller
         if ($user->type == "ADMIN"){
             $leads = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.date('Y-m-d').'%')->get(); 
             $company = DB::connection('mysql')->table('leads')->groupBy('company')->get();
-        }else{
-            $leads = DB::connection('mysql')->table('leads')->where('company',$user->company)->where('created_at','LIKE','%'.date('Y-m-d').'%')->get(); 
-            $company = "";
+        }else{            
+            $company = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();
+            $leads = array();
+            foreach($company as $l){
+                $leads[] = DB::connection('mysql')->table('leads')->where('company', $l->company)->where('created_at','LIKE','%'.date('Y-m-d').'%')->get(); 
+            } 
         }
 
         $company_title = "";
@@ -220,7 +237,12 @@ class HomeController extends Controller
             if ($user->type == "ADMIN"){
                 $records = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.date('Y-m-d H', strtotime($d)).'%')->count();
             }else{
-                $records = DB::connection('mysql')->table('leads')->where('company',$user->company)->where('created_at','LIKE','%'.date('Y-m-d H', strtotime($d)).'%')->count();
+                $company = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();
+                $records = 0;                
+                foreach($company as $l){
+                    $r = DB::connection('mysql')->table('leads')->where('company',$l->company)->where('created_at','LIKE','%'.date('Y-m-d H', strtotime($d)).'%')->count();
+                    $records += $r;
+                } 
             }
             
             $data[] = $records;
@@ -234,9 +256,12 @@ class HomeController extends Controller
         if ($user->type == "ADMIN"){
             $leads = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.$rd.'%')->get();
             $company = DB::connection('mysql')->table('leads')->groupBy('company')->get();
-        }else{
-            $leads = DB::connection('mysql')->table('leads')->where('company',$user->company)->where('created_at','LIKE','%'.$rd.'%')->get();
-            $company = "";
+        }else{          
+            $company = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();
+            $leads = array();
+            foreach($company as $l){
+                $leads[] = DB::connection('mysql')->table('leads')->where('company', $l->company)->where('created_at','LIKE','%'.$rd.'%')->get();
+            } 
         }
         $dr = "";
         $company_title = "";
@@ -248,13 +273,6 @@ class HomeController extends Controller
     public function zingCreditLast7Days()
     {
         $user = $this->userLogged();
-        if ($user->type == "ADMIN"){
-            $leads = DB::connection('mysql')->table('leads')->get();
-            $company = DB::connection('mysql')->table('leads')->groupBy('company')->get();
-        }else{
-            $leads = DB::connection('mysql')->table('leads')->where('company',$user->company)->get();
-            $company = "";
-        }
         
 
         $dt = date('Y-m-d', strtotime('today - 7 days'));
@@ -267,7 +285,12 @@ class HomeController extends Controller
             if ($user->type == "ADMIN"){
                 $records = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.$d.'%')->count();
             }else{
-                $records = DB::connection('mysql')->table('leads')->where('company',$user->company)->where('created_at','LIKE','%'.$d.'%')->count();
+                $company = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();
+                $records = 0;                
+                foreach($company as $l){
+                    $r = DB::connection('mysql')->table('leads')->where('company',$user->company)->where('created_at','LIKE','%'.$d.'%')->count();
+                    $records += $r;
+                } 
             }   
             
             $data[] = $records;
@@ -275,6 +298,18 @@ class HomeController extends Controller
 
         $labels = json_encode($label);
         $datas = json_encode($data);
+
+        if ($user->type == "ADMIN"){
+            $leads = DB::connection('mysql')->table('leads')->get();
+            $company = DB::connection('mysql')->table('leads')->groupBy('company')->get();
+        }else{
+            $company = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();
+            $leads = array();
+            foreach($company as $l){
+                $leads[] = DB::connection('mysql')->table('leads')->where('company', $l->company)->get();
+            }
+        }
+        
 
         $company_title = "";
         $dr = '';
@@ -285,15 +320,8 @@ class HomeController extends Controller
 
     public function zingCreditDateRange($start,$end)
     {
-        $user = $this->userLogged();
+        $user = $this->userLogged();        
         
-        if ($user->type == "ADMIN"){
-            $leads = DB::connection('mysql')->table('leads')->get();
-            $company = DB::connection('mysql')->table('leads')->groupBy('company')->get();
-        }else{
-            $leads = DB::connection('mysql')->table('leads')->where('company',$user->company)->get();
-            $company = "";
-        }
 
         $date1 = date('Y-m-d', strtotime($start));
         $date2 = date('Y-m-d', strtotime($end));
@@ -306,7 +334,12 @@ class HomeController extends Controller
             if ($user->type == "ADMIN"){
                 $records = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.$date1.'%')->count();
             }else{
-                $records = DB::connection('mysql')->table('leads')->where('company',$user->company)->where('created_at','LIKE','%'.$date1.'%')->count();
+                $company = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();
+                $records = 0;                
+                foreach($company as $l){
+                    $r = DB::connection('mysql')->table('leads')->where('company',$l->company)->where('created_at','LIKE','%'.$date1.'%')->count();
+                    $records += $r;
+                } 
             }
             
             $data[] = $records;
@@ -315,6 +348,17 @@ class HomeController extends Controller
 
         $labels = json_encode($label);
         $datas = json_encode($data);
+
+        if ($user->type == "ADMIN"){
+            $leads = DB::connection('mysql')->table('leads')->get();
+            $company = DB::connection('mysql')->table('leads')->groupBy('company')->get();
+        }else{
+            $company = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();
+            $leads = array();
+            foreach($company as $l){
+                $leads[] = DB::connection('mysql')->table('leads')->where('company', $l->company)->get();
+            }
+        }
 
         $company_title = "";
         
@@ -325,7 +369,8 @@ class HomeController extends Controller
 
     public function zingCreditCompany($company)
     {
-        
+        $user = $this->userLogged();
+    
         $dt = date('Y-m-d', strtotime('today - 30 days'));
         
         $leads_filter = $company. " Leads for the last 30 Days";
@@ -336,10 +381,30 @@ class HomeController extends Controller
         for ($i=1;$i <=30; $i++){        
             $d = date('Y-m-d', strtotime($dt. '+'.$i.' day'));                   
             $label[] = date('M d',strtotime($d));    
-            if ($company == 'All Company') {
-                $records = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.$d.'%')->count();
-            }else{
-                $records = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.$d.'%')->count();
+            if ($company == 'All Company') {                
+                if ($user->type == "ADMIN"){
+                    $records = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.$d.'%')->count();
+                }else{
+                    $usercompany = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();                    
+                    $records = 0;                
+                    foreach($usercompany as $l){
+                        $r = DB::connection('mysql')->table('leads')->where('company',$l->company)->where('created_at','LIKE','%'.$d.'%')->count();
+                        $records += $r;
+                    }  
+                }
+
+            }else{ 
+                
+                if ($user->type == "ADMIN"){
+                    $records = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.$d.'%')->count();
+                }else{
+                    $usercompany = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->where('company',$company)->get();
+                    $records = 0;                
+                    foreach($usercompany as $l){
+                        $r = DB::connection('mysql')->table('leads')->where('company',$l->company)->where('created_at','LIKE','%'.$d.'%')->count();
+                        $records += $r;
+                    }  
+                }
             }
             
             $data[] = $records;
@@ -348,15 +413,36 @@ class HomeController extends Controller
         $labels = json_encode($label);
         $datas = json_encode($data);
 
-        if ($company == 'All Company') {
-            $leads = DB::connection('mysql')->table('leads')->get();  
-        }else{
-            $leads = DB::connection('mysql')->table('leads')->where('company',$company)->get();  
+
+        if ($company == 'All Company') {           
+            if ($user->type == "ADMIN"){
+                $leads = DB::connection('mysql')->table('leads')->get();  
+            }else{
+                $company = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();
+                $leads = array();
+                foreach($company as $l){
+                    $leads[] = DB::connection('mysql')->table('leads')->where('company', $l->company)->get();
+                }  
+            }
+        }else{                        
+            if ($user->type == "ADMIN"){
+                $leads = DB::connection('mysql')->table('leads')->where('company',$company)->get();  
+            }else{
+                $usercompany = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->where('company',$company)->get();
+                $leads = array();
+                foreach($usercompany as $l){
+                    $leads[] = DB::connection('mysql')->table('leads')->where('company', $l->company)->get();
+                }  
+            }
         }
 
-             
+        if ($user->type == "ADMIN"){
+            $company = DB::connection('mysql')->table('leads')->groupBy('company')->get();
+        }else{
+            $company = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();     
+        }
 
-        $company = DB::connection('mysql')->table('leads')->groupBy('company')->get();
+
         $dr = "";
         $title = "ZING CREDIT";        
         return view('users.zing-credit', compact('title','leads','labels','datas','leads_filter','company','company_title','dr'));
@@ -366,7 +452,7 @@ class HomeController extends Controller
     {
 
         $user = $this->userLogged();
-        
+                
         $company_title = $company;
         $leads_filter = "Last 30 Days";
 
@@ -376,12 +462,34 @@ class HomeController extends Controller
         $data = array();
         for ($i=1;$i <=30; $i++){        
             $d = date('Y-m-d', strtotime($dt. '+'.$i.' day'));                   
-            $label[] = date('M d',strtotime($d)); 
-            if ($company == "ALL COMPANY"){
-                $records = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.$d.'%')->count();
-            }else{
-                $records = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.$d.'%')->count();
-            }   
+            $label[] = date('M d',strtotime($d));         
+            
+            if ($company == 'All Company') {                
+                if ($user->type == "ADMIN"){
+                    $records = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.$d.'%')->count();
+                }else{
+                    $usercompany = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();                    
+                    $records = 0;                
+                    foreach($usercompany as $l){
+                        $r = DB::connection('mysql')->table('leads')->where('company',$l->company)->where('created_at','LIKE','%'.$d.'%')->count();
+                        $records += $r;
+                    }  
+                }
+
+            }else{ 
+                
+                if ($user->type == "ADMIN"){
+                    $records = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.$d.'%')->count();
+                }else{
+                    $usercompany = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->where('company',$company)->get();
+                    $records = 0;                
+                    foreach($usercompany as $l){
+                        $r = DB::connection('mysql')->table('leads')->where('company',$l->company)->where('created_at','LIKE','%'.$d.'%')->count();
+                        $records += $r;
+                    }  
+                }
+            }
+
         
             $data[] = $records;
         }
@@ -389,13 +497,28 @@ class HomeController extends Controller
         $labels = json_encode($label);
         $datas = json_encode($data);
         
-        if ($company == "ALL COMPANY"){
-            $leads = DB::connection('mysql')->table('leads')->get();           
-        }else{
-            $leads = DB::connection('mysql')->table('leads')->where('company',$company)->get();            
+        if ($company == 'All Company') {           
+            if ($user->type == "ADMIN"){
+                $leads = DB::connection('mysql')->table('leads')->get();  
+            }else{
+                $company = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();
+                $leads = array();
+                foreach($company as $l){
+                    $leads[] = DB::connection('mysql')->table('leads')->where('company', $l->company)->get();
+                }  
+            }
+        }else{                        
+            if ($user->type == "ADMIN"){
+                $leads = DB::connection('mysql')->table('leads')->where('company',$company)->get();  
+            }else{
+                $usercompany = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->where('company',$company)->get();
+                $leads = array();
+                foreach($usercompany as $l){
+                    $leads[] = DB::connection('mysql')->table('leads')->where('company', $l->company)->get();
+                }  
+                $company = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();
+            }
         }
-
-        $company = DB::connection('mysql')->table('leads')->groupBy('company')->get();
         
         $dr = "";
         $title = "ZING CREDIT";        
@@ -427,11 +550,33 @@ class HomeController extends Controller
             }           
             
             $label[] = date('h A',strtotime($d));
-            if ($company == "ALL COMPANY"){
-                $records = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.date('Y-m-d H', strtotime($d)).'%')->count();
-            }else{
-                $records = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.date('Y-m-d H', strtotime($d)).'%')->count();
+            
+            if ($company == 'All Company') {                
+                if ($user->type == "ADMIN"){
+                    $records = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.date('Y-m-d H', strtotime($d)).'%')->count();
+                }else{
+                    $usercompany = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();                    
+                    $records = 0;                
+                    foreach($usercompany as $l){
+                        $r = DB::connection('mysql')->table('leads')->where('company',$l->company)->where('created_at','LIKE','%'.date('Y-m-d H', strtotime($d)).'%')->count();
+                        $records += $r;
+                    }  
+                }
+
+            }else{ 
+                
+                if ($user->type == "ADMIN"){
+                    $records = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.date('Y-m-d H', strtotime($d)).'%')->count();
+                }else{
+                    $usercompany = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->where('company',$company)->get();
+                    $records = 0;                
+                    foreach($usercompany as $l){
+                        $r = DB::connection('mysql')->table('leads')->where('company',$l->company)->where('created_at','LIKE','%'.date('Y-m-d H', strtotime($d)).'%')->count();
+                        $records += $r;
+                    }  
+                }
             }
+
         
             $data[] = $records;
 
@@ -441,14 +586,29 @@ class HomeController extends Controller
         $labels = json_encode($label);
         $datas = json_encode($data);
         
-        if ($company == "ALL COMPANY"){
-            $leads = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.date('Y-m-d').'%')->get(); 
-            
-        }else{
-            $leads = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.date('Y-m-d').'%')->get();             
+        
+        if ($company == 'All Company') {           
+            if ($user->type == "ADMIN"){
+                $leads = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.date('Y-m-d').'%')->get();
+            }else{
+                $company = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();
+                $leads = array();
+                foreach($company as $l){
+                    $leads[] = DB::connection('mysql')->table('leads')->where('company', $l->company)->where('created_at','LIKE','%'.date('Y-m-d').'%')->get();
+                }  
+            }
+        }else{                        
+            if ($user->type == "ADMIN"){
+                $leads = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.date('Y-m-d').'%')->get(); 
+            }else{
+                $usercompany = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->where('company',$company)->get();
+                $leads = array();
+                foreach($usercompany as $l){
+                    $leads[] = DB::connection('mysql')->table('leads')->where('company', $l->company)->where('created_at','LIKE','%'.date('Y-m-d').'%')->get();
+                }  
+                $company = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();
+            }
         }
-
-        $company = DB::connection('mysql')->table('leads')->groupBy('company')->get();
         
         $dr= "";
         $title = "ZING CREDIT";
@@ -477,10 +637,31 @@ class HomeController extends Controller
             }           
             
             $label[] = date('h A',strtotime($d));
-            if ($company == "ALL COMPANY"){
-                $records = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.date('Y-m-d H', strtotime($d)).'%')->count();
-            }else{
-                $records = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.date('Y-m-d H', strtotime($d)).'%')->count();
+            
+            if ($company == 'All Company') {                
+                if ($user->type == "ADMIN"){
+                    $records = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.date('Y-m-d H', strtotime($d)).'%')->count();
+                }else{
+                    $usercompany = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();                    
+                    $records = 0;                
+                    foreach($usercompany as $l){
+                        $r = DB::connection('mysql')->table('leads')->where('company',$l->company)->where('created_at','LIKE','%'.date('Y-m-d H', strtotime($d)).'%')->count();
+                        $records += $r;
+                    }  
+                }
+
+            }else{ 
+                
+                if ($user->type == "ADMIN"){
+                    $records = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.date('Y-m-d H', strtotime($d)).'%')->count();
+                }else{
+                    $usercompany = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->where('company',$company)->get();
+                    $records = 0;                
+                    foreach($usercompany as $l){
+                        $r = DB::connection('mysql')->table('leads')->where('company',$l->company)->where('created_at','LIKE','%'.date('Y-m-d H', strtotime($d)).'%')->count();
+                        $records += $r;
+                    }  
+                }
             }
             
             $data[] = $records;
@@ -491,16 +672,32 @@ class HomeController extends Controller
         $labels = json_encode($label);
         $datas = json_encode($data);
         
-        if ($company == "ALL COMPANY"){
-            $leads = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.$rd.'%')->get();
-            
-        }else{
-            $leads = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.$rd.'%')->get();
+    
+        if ($company == 'All Company') {           
+            if ($user->type == "ADMIN"){
+                $leads = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.$rd.'%')->get();
+            }else{
+                $company = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->where('company',$company)->get();
+                $leads = array();
+                foreach($company as $l){
+                    $leads[] = DB::connection('mysql')->table('leads')->where('company', $l->company)->where('created_at','LIKE','%'.$rd.'%')->get();
+                }  
+            }
+        }else{                        
+            if ($user->type == "ADMIN"){
+                $leads = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.$rd.'%')->get();  
+            }else{
+                $usercompany = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->where('company',$company)->get();
+                $leads = array();
+                foreach($usercompany as $l){
+                    $leads[] = DB::connection('mysql')->table('leads')->where('company', $l->company)->where('created_at','LIKE','%'.$rd.'%')->get();
+                }  
+                $company = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();  
+            }
         }
-        $dr = "";
 
-        $company = DB::connection('mysql')->table('leads')->groupBy('company')->get();
-        
+
+        $dr = "";
         $title = "ZING CREDIT";        
         return view('users.zing-credit', compact('title','leads','labels','datas','leads_filter','company','company_title','dr'));
     }
@@ -520,11 +717,32 @@ class HomeController extends Controller
         for ($i=1;$i <=7; $i++){        
             $d = date('Y-m-d', strtotime($dt. '+'.$i.' day'));                   
             $label[] = date('M d',strtotime($d));  
-            if ($company == "ALL COMPANY"){
-                $records = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.$d.'%')->count();
-            }else{
-                $records = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.$d.'%')->count();
-            }   
+            
+            if ($company == 'All Company') {                
+                if ($user->type == "ADMIN"){
+                    $records = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.$d.'%')->count();
+                }else{
+                    $usercompany = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();                    
+                    $records = 0;                
+                    foreach($usercompany as $l){
+                        $r = DB::connection('mysql')->table('leads')->where('company',$l->company)->where('created_at','LIKE','%'.$d.'%')->count();
+                        $records += $r;
+                    }  
+                }
+
+            }else{ 
+                
+                if ($user->type == "ADMIN"){
+                    $records = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.$d.'%')->count();
+                }else{
+                    $usercompany = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->where('company',$company)->get();
+                    $records = 0;                
+                    foreach($usercompany as $l){
+                        $r = DB::connection('mysql')->table('leads')->where('company',$l->company)->where('created_at','LIKE','%'.$d.'%')->count();
+                        $records += $r;
+                    }  
+                }
+            }
             
             $data[] = $records;
         }
@@ -532,17 +750,33 @@ class HomeController extends Controller
         $labels = json_encode($label);
         $datas = json_encode($data);
 
-        if ($company == "ALL COMPANY"){
-            $leads = DB::connection('mysql')->table('leads')->get();            
-        }else{
-            $leads = DB::connection('mysql')->table('leads')->where('company',$company)->get();
+    
+        if ($company == 'All Company') {           
+            if ($user->type == "ADMIN"){
+                $leads = DB::connection('mysql')->table('leads')->get();  
+            }else{
+                $company = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();
+                $leads = array();
+                foreach($company as $l){
+                    $leads[] = DB::connection('mysql')->table('leads')->where('company', $l->company)->get();
+                }  
+            }
+        }else{                        
+            if ($user->type == "ADMIN"){
+                $leads = DB::connection('mysql')->table('leads')->where('company',$company)->get();  
+            }else{
+                $usercompany = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->where('company',$company)->get();
+                $leads = array();
+                foreach($usercompany as $l){
+                    $leads[] = DB::connection('mysql')->table('leads')->where('company', $l->company)->get();
+                }  
+                $company = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();  
+            }
         }
-        
-        $company = DB::connection('mysql')->table('leads')->groupBy('company')->get();
+
         
         $dr = '';
-        $title = "ZING CREDIT";
-        
+        $title = "ZING CREDIT";        
         return view('users.zing-credit', compact('title','leads','labels','datas','leads_filter','company','company_title','dr'));
     }
 
@@ -561,11 +795,33 @@ class HomeController extends Controller
         while (strtotime($date1) <= strtotime($date2)) {
 
             $label[] = date('F d',strtotime($date1));    
-            if ($company == "ALL COMPANY"){
-                $records = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.$date1.'%')->count();
-            }else{
-                $records = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.$date1.'%')->count();
+    
+            if ($company == 'All Company') {                
+                if ($user->type == "ADMIN"){
+                    $records = DB::connection('mysql')->table('leads')->where('created_at','LIKE','%'.$date1.'%')->count();
+                }else{
+                    $usercompany = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();                    
+                    $records = 0;                
+                    foreach($usercompany as $l){
+                        $r = DB::connection('mysql')->table('leads')->where('company',$l->company)->where('created_at','LIKE','%'.$date1.'%')->count();
+                        $records += $r;
+                    }  
+                }
+
+            }else{ 
+                
+                if ($user->type == "ADMIN"){
+                    $records = DB::connection('mysql')->table('leads')->where('company',$company)->where('created_at','LIKE','%'.$date1.'%')->count();
+                }else{
+                    $usercompany = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->where('company',$company)->get();
+                    $records = 0;                
+                    foreach($usercompany as $l){
+                        $r = DB::connection('mysql')->table('leads')->where('company',$l->company)->where('created_at','LIKE','%'.$date1.'%')->count();
+                        $records += $r;
+                    }  
+                }
             }
+
             
             $data[] = $records;
             $date1 = date ("Y-m-d", strtotime("+1 days", strtotime($date1)));
@@ -574,21 +830,35 @@ class HomeController extends Controller
         $labels = json_encode($label);
         $datas = json_encode($data);
 
-        if ($company == "ALL COMPANY"){
-            $leads = DB::connection('mysql')->table('leads')->get();           
-        }else{
-            $leads = DB::connection('mysql')->table('leads')->where('company',$company)->get();
-        
+        if ($company == 'All Company') {           
+            if ($user->type == "ADMIN"){
+                $leads = DB::connection('mysql')->table('leads')->get();  
+            }else{
+                $company = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();
+                $leads = array();
+                foreach($company as $l){
+                    $leads[] = DB::connection('mysql')->table('leads')->where('company', $l->company)->get();
+                }  
+            }
+        }else{                        
+            if ($user->type == "ADMIN"){
+                $leads = DB::connection('mysql')->table('leads')->where('company',$company)->get();  
+            }else{
+                $usercompany = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->where('company',$company)->get();
+                $leads = array();
+                foreach($usercompany as $l){
+                    $leads[] = DB::connection('mysql')->table('leads')->where('company', $l->company)->get();
+                }  
+                $company = DB::connection('mysql')->table('users_companies')->where('user_id',$user->id)->get();
+            }
         }
-        $company = DB::connection('mysql')->table('leads')->groupBy('company')->get();
 
         
-        
+        $dr="";
         $title = "ZING CREDIT";
         
         return view('users.zing-credit', compact('title','leads','labels','datas','leads_filter','company','company_title','dr'));
     }
-
 
     public function getUsers()
     {
@@ -599,8 +869,9 @@ class HomeController extends Controller
         }
 
         $users = DB::connection('mysql')->table('users')->get();
+        $user_company = DB::connection('mysql')->table('users_companies')->get();
         $title = "USERS LIST" ;
-        return view('users.users-list', compact('title','users'));
+        return view('users.users-list', compact('title','users','user_company'));
     }
 
     public function userRegister(Request $request)
@@ -666,7 +937,6 @@ class HomeController extends Controller
                 'middlename'        => ucwords($request->middlename), 
                 'lastname'          => ucwords($request->lastname),                
                 'email'             => $request->email,
-                'company'           => $request->company,
                 'status'            => $request->status,
             ]);
         }else{
@@ -676,7 +946,6 @@ class HomeController extends Controller
                 'middlename'        => ucwords($request->middlename), 
                 'lastname'          => ucwords($request->lastname),                
                 'email'             => $request->email,
-                'company'            => $request->company,
                 'status'            => $request->status,
                 'password'          => Hash::make($request->password),
             ]);
@@ -691,18 +960,52 @@ class HomeController extends Controller
     }
 
 
-    public function getCompany(){
+    public function getCompany(Request $request){
 
-        $getcompany= array();
-        $company = DB::connection('mysql')->table('leads')->groupBy('company')->get();   
         
+        $getcompany= array();
+
+        $company = DB::connection('mysql')->table('leads')->groupBy('company')->get(); 
         foreach($company as $l){
-            $getcompany[] = ['company' => $l->company];
+            $cnt = 0;
+            $user_companies = DB::connection('mysql')->table('users_companies')->where('user_id',$request->id)->where('company', $l->company)->count();
+            if($user_companies > 0){
+                $cnt = 1;
+            }
+            $getcompany[] = ['company' => $l->company, 'checked' => $cnt];       
+        }       
+        $uc = DB::connection('mysql')->table('users_companies')->where('user_id',$request->id)->where('company', 'All')->count();
+
+        return response()->json(['success' => true, 'company' => $getcompany, 'uc' => $uc ]);
+    }
+
+    public function updateUserCompanies(Request $request){
+        //dd($request->all());
+
+        DB::table('users_companies')->where('user_id', $request->userid)->delete();
+
+        if(in_array("All",$request->companies)){
+            $query =DB::connection('mysql')->table('users_companies')->insert([  
+                'user_id'    => $request->userid,
+                'company'    => "All"
+            ]);
+        }else{
+            foreach($request->companies as $c){
+                $query =DB::connection('mysql')->table('users_companies')->insert([  
+                    'user_id'    => $request->userid,
+                    'company'    => $c
+                ]);
+            }
         }
         
-        //dd($getcompany);
-        
-        return response()->json(['success' => true, 'company' => $getcompany ]);
+        $user = DB::table('users')->where('id', $request->userid)->first();
+        $name = $user->firstname ." ". $user->lastname;
+        if($query){                       
+            return redirect('/users')->with('status','User '.$name.' company has been updated!');
+        }else{
+            return redirect('/users')->with('error','Error updating company for user '.$name.'!');
+        } 
+
     }
 
 }

@@ -88,3 +88,12 @@ div.dt-buttons {
 #daterange{
     display: none;
 }
+
+#companies_list input{
+    margin: 0px 0px 0px 0px;
+    cursor: pointer;
+}
+
+#companies_list label{
+    margin: 0px 20px 0px 3px;
+}

@@ -69,7 +69,15 @@
                                 @if($users)
                                 @foreach($users as $l)
                                 <tr>
-                                    <td>{{$l->company}}</td>
+                                    <td>
+                                        @if($user_company)
+                                        @foreach($user_company as $uc)
+                                        @if($l->id == $uc->user_id)
+                                        {{$uc->company}} <br />
+                                        @endif
+                                        @endforeach
+                                        @endif
+                                    </td>
                                     <td>
                                         <img src="/{{$l->img}}" alt="{{$l->firstname .' '. $l->lastname}}"
                                             class="rounded-circle" width="40" height="40">
@@ -78,13 +86,19 @@
                                     <td>{{$l->email}}</td>
                                     <td>{{$l->status}}</td>
                                     <td>
-                                        <button class="btn btn-icon btn-warning" id="settings" data-id="{{$l->id}}"
-                                            data-firstname="{{$l->firstname}}" data-middlename="{{$l->middlename}}"
-                                            data-lastname="{{$l->lastname}}" data-email="{{$l->email}}"
-                                            data-status="{{$l->status}}" data-company="{{$l->company}}"
-                                            data-toggle="modal" data-target="#updateUserModal">
+                                        <button class="btn btn-icon btn-warning" title="Settings" id="settings"
+                                            data-id="{{$l->id}}" data-firstname="{{$l->firstname}}"
+                                            data-middlename="{{$l->middlename}}" data-lastname="{{$l->lastname}}"
+                                            data-email="{{$l->email}}" data-status="{{$l->status}}" data-toggle="modal"
+                                            data-target="#updateUserModal">
                                             <span class="btn-inner--icon"><i class="ni ni-settings-gear-65"></i></span>
-                                            <span class="btn-inner--text">Settings</span>
+                                        </button>
+                                        <button id="companiesSettings" class="btn btn-icon btn-info" title="Companies"
+                                            id="settings" data-id="{{$l->id}}" data-firstname="{{$l->firstname}}"
+                                            data-middlename="{{$l->middlename}}" data-lastname="{{$l->lastname}}"
+                                            data-email="{{$l->email}}" data-status="{{$l->status}}" data-toggle="modal"
+                                            data-target="#companiesModal">
+                                            <span class="btn-inner--building"><i class="ni ni-building"></i></span>
                                         </button>
                                     </td>
                                 </tr>
@@ -98,6 +112,7 @@
                 </div>
             </div>
         </div>
+
         <!-- Registraion Modal -->
         <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="modal-notification"
             aria-modal="true" style="padding-right: 17px;">
@@ -284,21 +299,46 @@
                                         </select>
                                     </div>
                                 </div>
-                                <hr>
-                                <div class="form-group mb-3">
-                                    <div class="input-group input-group-alternative">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="ni ni-bullet-list-67"></i></span>
-                                        </div>
-                                        <select name="company" id="company" class="form-control">
-                                        </select>
-                                    </div>
-                                </div>
 
                                 <div class="text-center">
                                     <input class="form-control" name="user_id" id="user_id" type="hidden">
                                     <button type="submit" class="btn btn-primary"> <i class="ni ni-send"></i>
                                         Update Settings</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Companies Modal -->
+        <div class="modal fade" id="companiesModal" tabindex="-1" role="dialog" aria-labelledby="modal-notification"
+            aria-modal="true" style="padding-right: 17px;">
+            <div class="modal-dialog  modal-info modal-dialog-centered modal-" role="document">
+                <div class="modal-content bg-gradient-info">
+                    <div class="modal-header">
+                        <h2 class="modal-title" id="modal-title-notification"></h2>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h2 style="color:#fff;"><i class="ni ni-bold-right"></i> Select Companies</h2>
+                        <hr>
+                        <div class="py-3">
+                            <form id="update-companies" role="form" method="POST"
+                                action="{{ route('update.user.companies') }}">
+                                @csrf
+                                <div id="companies_list">
+
+                                </div>
+                                <hr />
+                                <div class="text-center">
+                                    <input class="form-control" name="userid" id="userid" type="hidden">
+                                    <button type="submit" class="btn btn-info"> <i class="ni ni-send"></i>
+                                        Update Companies</button>
                                 </div>
                             </form>
                         </div>
@@ -337,9 +377,6 @@
 
         $(document).on("click", "#settings", function() {
 
-
-
-
             $('#update-settings #firstname').val($(this).data('firstname'));
             $('#update-settings #middlename').val($(this).data('middlename'));
             $('#update-settings #lastname').val($(this).data('lastname'));
@@ -354,13 +391,13 @@
             $("#update-settings #status").append(new Option("ACTIVE", "ACTIVE"));
             $("#update-settings #status").append(new Option("INACTIVE", "INACTIVE"));
 
-            if($(this).data('status') === "ACTIVE"){
+            if ($(this).data('status') === "ACTIVE") {
                 $("#update-settings #status").val("ACTIVE").prop('selected', true);
-            }else{
+            } else {
                 $("#update-settings #status").val("INACTIVE").prop('selected', true);
             }
 
-            
+
             $('#update-settings #company')
                 .find('option')
                 .remove()
@@ -372,29 +409,48 @@
                 $("#update-settings #company").val($(this).data('Select Company')).prop('selected', true);
             }
 
+
+        });
+
+        $(document).on("click", "#companiesSettings", function() {
+            var id = $(this).data('id');
+            $('#userid').val(id);
+            var name = 'USER : ' + $(this).data('firstname') + ' ' + $(this).data('lastname');
+            var token = $("body").attr("data-token");
             $.ajax({
                 url: '/get-company',
-                type: 'get',
-                data: {},
+                type: 'post',
+                data: {
+                    _token: token,
+                    id: id
+                },
                 dataType: 'json',
                 success: function(response) {
                     if (response.success === true) {
-
+                        $('#companiesModal h2.modal-title').empty();
+                        $('#companiesModal h2.modal-title').append(name);
+                        $('#companies_list').empty();
+                        var vall = "";
+                        if(response.uc > 0){
+                            vall = "checked";
+                        }
+                        $('#companies_list').append(
+                            '<input class="companies_record" type="checkbox" name="companies[]" value="All" '+vall+' /> <label>All</label> <br />'
+                        );
                         $.each(response.company, function(index, value) {
-                            console.log(value.company);
-                            $("#update-settings #company").append(new Option(value.company,
-                                value.company));
+                            var chk = "";
+                            if (value.checked > 0) {
+                                chk = "checked";
+                            }
+                            $('#companies_list').append(
+                                '<input class="companies_record" type="checkbox" name="companies[]"  value="' +
+                                value.company + '"' + chk +' /> <label>' + value.company + '</label>');
                         });
                     }
                 }
-
             });
-
-            
-
-
-
         });
+        
         </script>
 
 

@@ -49,7 +49,8 @@ Route::get('/users', 'HomeController@getUsers')->name('get.users');
 Route::post('/user/register', 'HomeController@userRegister')->name('user.register');
 Route::get('/user/disable/{id}', 'HomeController@disabledUser');
 Route::post('/user/settings/update', 'HomeController@updateUserSettings')->name('update.user.settings');
-Route::get('/get-company', 'HomeController@getCompany');
+Route::post('/get-company', 'HomeController@getCompany');
+Route::post('/user/companies/update', 'HomeController@updateUserCompanies')->name('update.user.companies');
 
 // Route::get('/admin', function () {
 //     return redirect('/admin/login');
